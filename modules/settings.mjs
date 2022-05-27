@@ -8,6 +8,7 @@ class Settings {
 	board = null;
 	wndSetting = null;
 	wndWalkerList = null;
+	lstWalkerController = [];
 	walkerCallback = null;
 
 	constructor() {
@@ -35,6 +36,7 @@ class Settings {
 	}
 
 	selectBoard(event) {
+		if (this.board) this.board.remove();
 		switch (event.srcElement.value) {
 			case 'canvas':
 				this.board = new BoardCanvas(this.createWalker.bind(this));
@@ -48,7 +50,10 @@ class Settings {
 			default:
 				break;
 		}
-		this.walkerCallback = this.board.setPixel.bind(this.board);
+		if (this.board) {
+			this.walkerCallback = this.board.setPixel.bind(this.board);
+			this.lstWalkerController.forEach(wc => wc.callback = this.walkerCallback);
+		}
 		console.log('===> Settings.selectBoard', {event, 'this': this});
 	}
 
@@ -57,6 +62,7 @@ class Settings {
 		let walkerController = new WalkerController(walker);
 		walkerController.callback = this.walkerCallback;
 		walkerController.start();
+		this.lstWalkerController.push(walkerController);
 		this.wndWalkerList.append(walkerController.controller);
 	}
 }
