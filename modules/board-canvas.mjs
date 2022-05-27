@@ -9,16 +9,22 @@ class BoardCanvas {
 		this.board.height = window.innerHeight - 4;
 		this.board.classList.add('board-canvas');
 		this.ctx = this.board.getContext('2d');
-		document.body.append(this.board);
+		document.body.prepend(this.board);
 
 		this.board.addEventListener('click', onClick);
 	}
 
 	get size() {
 		return {
-			width: this.board.scrollWidth,
-			height: this.board.scrollHeight
+			width: this.board?.scrollWidth ?? 0,
+			height: this.board?.scrollHeight ?? 0
 		};
+	}
+
+	remove() {
+		this.board.remove();
+		this.board = null;
+		this.ctx = null;
 	}
 
 	getRedIndexForCoord(x, y, width) {
@@ -34,8 +40,10 @@ class BoardCanvas {
 	}
 
 	setPixel(walker) {
-		this.ctx.fillStyle = walker.getMergedColor(this.getColor(walker.x, walker.y));
-		this.ctx.fillRect(walker.x, walker.y, 1, 1);
+		if (this.ctx) {
+			this.ctx.fillStyle = walker.getMergedColor(this.getColor(walker.x, walker.y));
+			this.ctx.fillRect(walker.x, walker.y, 1, 1);
+		}
 	}
 }
 
