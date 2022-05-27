@@ -1,0 +1,74 @@
+.px-window {
+	z-index: 1000;
+	position: absolute;
+	width: 200px;
+	height: 100px;
+	border: 1px solid #000;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+}
+
+.px-window.transition {
+	transition-property: top, left, width, height;
+	transition-duration: 0.5s;
+}
+
+.px-window .px-window-title {
+	user-select: none;
+	border-bottom: 1px solid #000;
+	background-color: #ccc;
+	padding: 2px;
+	display: flex;
+}
+
+.px-window .px-window-title .px-window-close {
+	margin-left: auto;
+	margin-right: 3px;
+	background: none;
+	border: none;
+	padding: 0;
+	font-size: 1.3em;
+	/* to compensate for the bigger font-size we need a negative margin at top and bottom */
+	margin-top: -5px;
+	margin-bottom: -5px;
+	transition: color 0.5s;
+}
+
+.px-window .px-window-title .px-window-close:hover {
+	color: red;
+}
+
+.px-window .px-window-title .px-window-close::before {
+	content: '\d7';
+}
+
+.px-window .px-window-content {
+	background-color: #fff;
+	padding: 2px;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+	flex: 1 1 auto;
+}
+
+.px-window .px-window-content button {
+	user-select: none;
+}
+
+.px-window.closed {
+	width: 40px;
+	height: 40px;
+	left: calc(100vw - 43px)!important;
+	top: calc(100vh - 43px)!important;
+}
+
+.px-window.closed .px-window-title {
+	height: 7px;
+}
+
+.px-window.closed .px-window-content > *, .px-window.closed .px-window-title > * {
+	display: none;
+}
+
+

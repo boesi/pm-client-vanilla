@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Pixel Mover</title>
+	<script type="module" src="./main.mjs"></script>
+<style>
+	body {
+		margin: 0;
+	}
+	.board-svg .pixel {
+		r: 1px;
+	}
+	.board-html {
+		position: relative;
+	}
+	.board-html .pixel {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+	}
+	.walker-highlighter {
+		border: 1px solid black;
+		background-color: #ffffff88;
+		border-radius: 50%;
+		width: 20px;
+		height: 20px;
+		position: absolute;
+		z-index: 100;
+	}
+	.settings {
+		display: flex;
+		flex-direction: column;
+		overflow: hidden;
+	}
+	.settings label {
+		display: flex;
+		flex-direction: row;
+	}
+	.settings label > select {
+		margin-left: 0.25rem;
+		flex: 1 1 auto;
+	}
+	.settings .walker-list {
+		overflow: auto;
+	}
+</style>
+</head>
+<body>
+</body>
+</html>
