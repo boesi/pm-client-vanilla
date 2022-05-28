@@ -18,6 +18,35 @@ class BoardHTML {
 		};
 	}
 
+	getPixelData() {
+		let size = this.size;
+		let data = Array(size.width);
+		for (let x=0; x<data.length; x++) data[x] = Array(size.height);
+		for (let pixel of this.board.querySelectorAll('.pixel')) {
+			let x = /^\d+/.exec(pixel.style.left)[0];
+			let y = /^\d+/.exec(pixel.style.top)[0];
+			data[x][y] = pixel.style['background-color'];
+		}
+		return data;
+	}
+
+	setPixelData(data) {
+		for (let x=0; x<data.length; x++) {
+			for (let y=0; y<data[x].length; y++) {
+				let color = data[x][y];
+				if (color) {
+					let pixel = document.createElement('span');
+					pixel.id = `x${x}_y${y}`;
+					pixel.classList.add('pixel');
+					pixel.style.left = `${x}px`;
+					pixel.style.top = `${y}px`;
+					pixel.style['background-color'] = data[x][y];
+					this.board.append(pixel);
+				}
+			}
+		}
+	}
+
 	remove() {
 		this.board.remove();
 		this.board = null;

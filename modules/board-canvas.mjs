@@ -21,6 +21,36 @@ class BoardCanvas {
 		};
 	}
 
+	getPixelData() {
+		let size = this.size;
+		let data = Array(size.width);
+		for (let x=0; x<data.length; x++) data[x] = Array(size.height);
+
+		let imgData = this.ctx.getImageData(0, 0, this.board.width, this.board.height).data;
+		for (let x=0; x<data.length; x++) {
+			for (let y=0; y<data[x].length; y++) {
+				let coord = this.getRedIndexForCoord(x, y, this.board.width);
+				let [red, green, blue, alpha] = imgData.slice(coord, coord+4);
+				if (alpha !== 0) {
+					data[x][y] = `rgb(${red}, ${green}, ${blue})`;
+				}
+			}
+		}
+		return data;
+	}
+
+	setPixelData(data) {
+		for (let x=0; x<data.length; x++) {
+			for (let y=0; y<data[x].length; y++) {
+				let color = data[x][y];
+				if (color) {
+					this.ctx.fillStyle = color;
+					this.ctx.fillRect(x, y, 1, 1);
+				}
+			}
+		}
+	}
+
 	remove() {
 		this.board.remove();
 		this.board = null;
@@ -32,10 +62,10 @@ class BoardCanvas {
 	}
 
 	getColor(x, y) {
-		let data = this.ctx.getImageData(0, 0, this.board.width, this.board.height).data;
+		let imgData = this.ctx.getImageData(0, 0, this.board.width, this.board.height).data;
 		let coord = this.getRedIndexForCoord(x, y, this.board.width);
-		let [red, green, blue] = data.slice(coord, coord+3);
-		if (red === 0 && green === 0 && blue === 0) return;
+		let [red, green, blue, alpha] = imgData.slice(coord, coord+4);
+		if (alpha === 0) return;
 		return `rgb(${red}, ${green}, ${blue})`;
 	}
 
