@@ -11,5 +11,6 @@ As a side goal I'm exploring different web technologies. But after all this proj
 - [ ] Make PxWindow resizeable
 - [ ] Make WalkerController more sophisticated
 - [ ] Create a statistic window
+- [ ] Make Docker image
 
 [TODO list](https://gist.github.com/boesi/79fcb31c6e7efbc30f72d85a0fc97e98)
