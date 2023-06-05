@@ -1,9 +1,13 @@
 # Pixel Mover
 Just a little project to explore what you can do in web development without any framework.
 
-The goal is a little interactive page. No Framework, library, bundler, ... is allowed.
+The goal is a little interactive page. No Framework, library, bundler, ... allowed.
 
 As a side goal I'm exploring different web technologies. But after all this project has no real purpose.
+
+Run this project with
+
+    docker run -p 8080:80 boesi/pixel-mover
 
 ## TODOs
 - [x] Convert pixel data between boards
