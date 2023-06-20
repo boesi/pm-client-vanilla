@@ -1,7 +1,9 @@
 'use strict';
 import PxWindow from './modules/px-window.mjs';
 import Settings from './modules/settings.mjs';
+import config from './config.js';
 
-let pxWindow = new PxWindow('Pixel Mover Settings');
+document.title = `${config.name} ${config.version}`
+let pxWindow = new PxWindow(`${config.name} ${config.version} Settings`);
 let settings = new Settings();
 pxWindow.addContent(settings.content);
