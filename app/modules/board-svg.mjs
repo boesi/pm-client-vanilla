@@ -1,21 +1,12 @@
-class BoardSVG {
-	board = null;
+import BoardHTML from './board-html.mjs';
 
-	constructor(onClick) {
-		this.board = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-		this.board.style.width = '100vw';
-		this.board.style.height = '100vh';
-		this.board.classList.add('board-svg');
-		document.body.prepend(this.board);
+class BoardSVG extends BoardHTML {
+	board = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+	className = 'board-svg';
 
-		this.board.addEventListener('click', onClick);
-	}
-
-	get size() {
-		return {
-			width: this.board?.scrollWidth ?? 0,
-			height: this.board?.scrollHeight ?? 0
-		};
+	constructor(onClick, init=true) {
+		super(onClick, false);
+		this.initBoard(onClick, init);
 	}
 
 	getPixelData() {
@@ -33,11 +24,7 @@ class BoardSVG {
 			for (let y=0; y<data[x].length; y++) {
 				let color = data[x][y];
 				if (color) {
-					let pixel = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-					pixel.id = `x${x}_y${y}`;
-					pixel.classList.add('pixel');
-					pixel.setAttribute('cx', x);
-					pixel.setAttribute('cy', y);
+					let pixel = this.#createPixel(x, y);
 					pixel.style.fill = color;
 					this.board.append(pixel);
 				}
@@ -45,27 +32,27 @@ class BoardSVG {
 		}
 	}
 
-	remove() {
-		this.board.remove();
-		this.board = null;
+	getPixelColor(x, y) {
+		return this.getPixel(x, y)?.style.fill;
 	}
 
-	setPixel(walker) {
+	setPixelColor(x, y, color) {
 		if (this.board) {
-			let id = `x${walker.x}_y${walker.y}`;
-			let pixel = this.board.querySelector('#' + id);
-			if (!pixel) {
-				pixel = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-				pixel.id = id;
-				pixel.classList.add('pixel');
-			}
-			pixel.setAttribute('cx', walker.x);
-			pixel.setAttribute('cy', walker.y);
-			pixel.style.fill = walker.getMergedColor(pixel.style.fill);
+			let pixel = this.getPixel(x, y) ?? this.#createPixel(x, y);
+			pixel.style.fill = color;
 			// if the pixel is already in the dom tree, we need to move it to the end
 			// svg always respect the order of the dom tree
 			this.board.append(pixel);
 		}
+	}
+
+	#createPixel(x, y) {
+		let pixel = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+		pixel.id = `x${x}_y${y}`;
+		pixel.classList.add('pixel');
+		pixel.setAttribute('cx', x);
+		pixel.setAttribute('cy', y);
+		return pixel;
 	}
 }
 

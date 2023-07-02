@@ -1,14 +1,20 @@
 class BoardHTML {
-	board = null;
+	board = document.createElement('div');
+	className = 'board-html';
 
-	constructor(onClick) {
-		this.board = document.createElement('div');
-		this.board.style.width = '100vw';
-		this.board.style.height = '100vh';
-		this.board.classList.add('board-html');
-		document.body.prepend(this.board);
+	constructor(onClick, init=true) {
+		this.initBoard(onClick, init);
+	}
 
-		this.board.addEventListener('click', onClick);
+	initBoard(onClick, init) {
+		if (init) {
+			this.board.style.width = '100vw';
+			this.board.style.height = '100vh';
+			this.board.classList.add(this.className);
+			document.body.prepend(this.board);
+
+			this.board.addEventListener('click', onClick);
+		}
 	}
 
 	get size() {
@@ -35,12 +41,8 @@ class BoardHTML {
 			for (let y=0; y<data[x].length; y++) {
 				let color = data[x][y];
 				if (color) {
-					let pixel = document.createElement('span');
-					pixel.id = `x${x}_y${y}`;
-					pixel.classList.add('pixel');
-					pixel.style.left = `${x}px`;
-					pixel.style.top = `${y}px`;
-					pixel.style['background-color'] = data[x][y];
+					let pixel = this.#createPixel(x, y);
+					pixel.style['background-color'] = color;
 					this.board.append(pixel);
 				}
 			}
@@ -52,18 +54,27 @@ class BoardHTML {
 		this.board = null;
 	}
 
-	setPixel(walker) {
+	getPixelColor(x, y) {
+		return this.getPixel(x, y)?.style['background-color'];
+	}
+
+	getPixel(x, y) {
+		return this.board?.querySelector(`#x${x}_y${y}`);
+	}
+
+	#createPixel(x, y) {
+		let pixel = document.createElement('span');
+		pixel.id = `x${x}_y${y}`;
+		pixel.classList.add('pixel');
+		pixel.style.left = `${x}px`;
+		pixel.style.top = `${y}px`;
+		return pixel;
+	}
+
+	setPixelColor(x, y, color) {
 		if (this.board) {
-			let id = `x${walker.x}_y${walker.y}`;
-			let pixel = this.board.querySelector('#' + id);
-			if (!pixel) {
-				pixel = document.createElement('span');
-				pixel.id = id;
-				pixel.classList.add('pixel');
-			}
-			pixel.style.left = `${walker.x}px`;
-			pixel.style.top = `${walker.y}px`;
-			pixel.style['background-color'] = walker.getMergedColor(pixel.style['background-color']);
+			let pixel = this.getPixel(x, y) ?? this.#createPixel(x, y);
+			pixel.style['background-color'] = color;
 			// if the pixel is already in the dom tree, we need to move it to the end
 			// svg always respect the order of the dom tree
 			this.board.append(pixel);

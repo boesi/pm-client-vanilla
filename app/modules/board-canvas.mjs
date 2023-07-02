@@ -44,8 +44,7 @@ class BoardCanvas {
 			for (let y=0; y<data[x].length; y++) {
 				let color = data[x][y];
 				if (color) {
-					this.ctx.fillStyle = color;
-					this.ctx.fillRect(x, y, 1, 1);
+					this.setPixelColor(x, y, color);
 				}
 			}
 		}
@@ -61,7 +60,7 @@ class BoardCanvas {
 		return y * (width * 4) + x * 4;
 	}
 
-	getColor(x, y) {
+	getPixelColor(x, y) {
 		let imgData = this.ctx.getImageData(0, 0, this.board.width, this.board.height).data;
 		let coord = this.getRedIndexForCoord(x, y, this.board.width);
 		let [red, green, blue, alpha] = imgData.slice(coord, coord+4);
@@ -69,10 +68,10 @@ class BoardCanvas {
 		return `rgb(${red}, ${green}, ${blue})`;
 	}
 
-	setPixel(walker) {
+	setPixelColor(x, y, color) {
 		if (this.ctx) {
-			this.ctx.fillStyle = walker.getMergedColor(this.getColor(walker.x, walker.y));
-			this.ctx.fillRect(walker.x, walker.y, 1, 1);
+			this.ctx.fillStyle = color;
+			this.ctx.fillRect(x, y, 1, 1);
 		}
 	}
 }
