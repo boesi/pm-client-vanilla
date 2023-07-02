@@ -1,53 +1,69 @@
-class Walker {
+class WalkerData {
 	size = {width: 300, height: 300};
 	maxColor = 255;
 
-	x = this.getRandomIntInclusive(this.size.width);
-	y = this.getRandomIntInclusive(this.size.height);
+	x = null;
+	y = null;
 	prevX = null;
 	prevY = null;
 	
-	red = this.getRandomIntInclusive(this.maxColor);
-	green = this.getRandomIntInclusive(this.maxColor);
-	blue = this.getRandomIntInclusive(this.maxColor);
+	red = null;
+	green = null;
+	blue = null;
 	mergeFactor = 0.5;
+
+	constructor(x, y, size) {
+		this.x = x;
+		this.y = y;
+		this.size = size;
+	}
+}
+
+class Walker {
+	data = null;
 
 	/**
 		* forbid certain motions
 		* just return false, if all motions should be allowed
 		*/
 	isPositionForbidden(x, y) {
-		return
-			// forbid standing still
-			(x === 0 && y === 0)
+		// forbid standing still
+		return (x === 0 && y === 0) ||
 			// forbid backward movement
-			|| (this.prevX !== null && x === this.prevX
-					&& this.prevY !== null && y === this.prevY);
+			(this.data.prevX !== null && x === this.data.prevX &&
+					this.data.prevY !== null && y === this.data.prevY);
 	}
 
 	setPosition(x, y) {
-		this.prevX = this.x;
-		this.prevY = this.y;
-		this.x = x;
-		this.y = y;
+		this.data.prevX = this.data.x;
+		this.data.prevY = this.data.y;
+		this.data.x = x;
+		this.data.y = y;
 	}
 
 	getMergedColor(strColor) {
 		if (strColor) {
 			let [strColor2, red, green, blue] = /[^\d]*(\d{1,3})[^\d]*(\d{1,3})[^\d]*(\d{1,3}).*/.exec(strColor);
-			red   = Math.round(this.mergeFactor * this.red   + (1 - this.mergeFactor) * red);
-			blue  = Math.round(this.mergeFactor * this.blue  + (1 - this.mergeFactor) * blue);
-			green = Math.round(this.mergeFactor * this.green + (1 - this.mergeFactor) * green);
+			red   = Math.round(this.data.mergeFactor * this.data.red   + (1 - this.mergeFactor) * red);
+			blue  = Math.round(this.data.mergeFactor * this.data.blue  + (1 - this.mergeFactor) * blue);
+			green = Math.round(this.data.mergeFactor * this.data.green + (1 - this.mergeFactor) * green);
 			return `rgb(${red}, ${green}, ${blue})`;
 		} else {
-			return `rgb(${this.red}, ${this.green}, ${this.blue})`;
+			return `rgb(${this.data.red}, ${this.data.green}, ${this.data.blue})`;
 		}
 	}
 
+	getPosition() {
+		return {x: this.data.x, y: this.data.y};
+	}
+
 	constructor(x, y, size) {
-		this.x = x ?? this.x;
-		this.y = y ?? this.y;
-		this.size = size;
+		x = x ?? this.getRandomIntInclusive(size.width);
+		y = y ?? this.getRandomIntInclusive(size.height);
+		this.data = new WalkerData(x, y, size);
+		this.data.red = this.getRandomIntInclusive(this.data.maxColor);
+		this.data.green = this.getRandomIntInclusive(this.data.maxColor);
+		this.data.blue = this.getRandomIntInclusive(this.data.maxColor);
 	}
 
 	getRandomIntInclusive(min, max) {
@@ -66,13 +82,13 @@ class Walker {
 		let x = null,
 				y = null;
 		do {
-			x = this.moveValue(this.x, 0, this.size.width);
-			y = this.moveValue(this.y, 0, this.size.height);
+			x = this.moveValue(this.data.x, 0, this.data.size.width);
+			y = this.moveValue(this.data.y, 0, this.data.size.height);
 		} while (this.isPositionForbidden(x, y));
 		this.setPosition(x, y);
-		this.red = this.moveValue(this.red, 0, this.maxColor);
-		this.green = this.moveValue(this.green, 0, this.maxColor);
-		this.blue = this.moveValue(this.blue, 0, this.maxColor);
+		this.data.red = this.moveValue(this.data.red, 0, this.data.maxColor);
+		this.data.green = this.moveValue(this.data.green, 0, this.data.maxColor);
+		this.data.blue = this.moveValue(this.data.blue, 0, this.data.maxColor);
 		return {x, y};
 	}
 }

@@ -9,7 +9,6 @@ class Settings {
 	wndSetting = null;
 	wndWalkerList = null;
 	lstWalkerController = [];
-	walkerCallback = null;
 
 	constructor() {
 		this.wndSetting = document.createElement('div');
@@ -56,15 +55,14 @@ class Settings {
 		}
 		if (this.board) {
 			if (pixelData) this.board.setPixelData(pixelData);
-			this.walkerCallback = this.board.setPixel.bind(this.board);
-			this.lstWalkerController.forEach(wc => wc.callback = this.walkerCallback);
+			this.lstWalkerController.forEach(wc => wc.setBoard(this.board));
 		}
 	}
 
 	createWalker(event) {
 		let walker = new Walker(event.offsetX, event.offsetY, this.board.size);
 		let walkerController = new WalkerController(walker);
-		walkerController.callback = this.walkerCallback;
+		walkerController.setBoard(this.board);
 		walkerController.start();
 		this.lstWalkerController.push(walkerController);
 		this.wndWalkerList.append(walkerController.controller);
