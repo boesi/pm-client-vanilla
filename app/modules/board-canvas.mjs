@@ -64,8 +64,8 @@ class BoardCanvas {
 		let imgData = this.ctx.getImageData(0, 0, this.board.width, this.board.height).data;
 		let coord = this.getRedIndexForCoord(x, y, this.board.width);
 		let [red, green, blue, alpha] = imgData.slice(coord, coord+4);
-		if (alpha === 0) return;
-		return `rgb(${red}, ${green}, ${blue})`;
+		if (alpha !== 0) return `rgb(${red}, ${green}, ${blue})`;
+		return;
 	}
 
 	setPixelColor(x, y, color) {

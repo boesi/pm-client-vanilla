@@ -1,12 +1,12 @@
 class WalkerController {
-	walker = null;
+	#walker = null;
 	intervalID = null;
 
 	controller = null;
 	board = null;
 
 	constructor(walker) {
-		this.walker = walker;
+		this.#walker = walker;
 		this.controller = document.createElement('button');
 		this.controller.addEventListener('click', this);
 		this.walkerHighlighter = document.createElement('span');
@@ -24,11 +24,11 @@ class WalkerController {
 	}
 
 	doWork() {
-		let {x, y} = this.walker.move();
+		let {x, y} = this.#walker.move();
 		this.walkerHighlighter.style.left = `${x - this.walkerHighlighter.clientWidth / 2}px`;
 		this.walkerHighlighter.style.top = `${y - this.walkerHighlighter.clientHeight / 2}px`;
 		if (this.board) {
-			let color = this.walker.getMergedColor(this.board.getPixelColor(x, y));
+			let color = this.#walker.getMergedColor(this.board.getPixelColor(x, y));
 			this.board.setPixelColor(x, y, color);
 		}
 	}
@@ -42,6 +42,10 @@ class WalkerController {
 	handleEvent() {
 		if (this.intervalID) this.stop();
 		else this.start();
+	}
+
+	getData() {
+		return this.#walker.getData();
 	}
 }
 
