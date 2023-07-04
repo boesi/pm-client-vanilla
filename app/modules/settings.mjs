@@ -3,12 +3,15 @@ import WalkerController from './walker-controller.mjs';
 import BoardSVG from './board-svg.mjs';
 import BoardHTML from './board-html.mjs';
 import BoardCanvas from './board-canvas.mjs';
+import StorageLocal from './storage/storage-local.mjs';
+import StorageData from './storage/storage-data.mjs';
 
 class Settings {
 	board = null;
 	wndSetting = null;
 	wndWalkerList = null;
 	lstWalkerController = [];
+	storage = StorageLocal;
 
 	constructor() {
 		this.wndSetting = document.createElement('div');
@@ -23,15 +26,29 @@ class Settings {
 					<option value="svg">SVG</option>
 				</select>
 			</label>
+			<button id="btn-save">Save</button>
 			<div class="walker-list"/>
 		`);
 		this.wndWalkerList = this.wndSetting.querySelector('.walker-list');
 		let selectorBoard = this.wndSetting.querySelector('.board-type select');
 		selectorBoard.addEventListener('input', this.selectBoard.bind(this));
+		let btnSave = this.wndSetting.querySelector('#btn-save');
+		btnSave.addEventListener('click', this.save.bind(this));
 	}
 
 	get content() {
 		return this.wndSetting;
+	}
+
+	createStorageData() {
+		let data = new StorageData();
+		data.pixels = this.board.getPixelData();
+		data.walkers = this.lstWalkerController.map(wc => wc.getData());
+		return data;
+	}
+
+	save() {
+		this.storage.save(this.createStorageData());
 	}
 
 	selectBoard(event) {
