@@ -8,7 +8,14 @@ class BoardCanvas {
 		// for some unknown reason, you get scrollbars if you use the full innerHeight
 		this.board.height = window.innerHeight - 4;
 		this.board.classList.add('board-canvas');
+		// https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently
+		// on my computer this setting has no effect on the performance
+		// only one less warning in the chrome developer console
+		//this.ctx = this.board.getContext('2d', {willReadFrequently: true, alpha: false});
 		this.ctx = this.board.getContext('2d');
+		// with the parameter alpha: false we get a black background, but we want a white one
+		this.ctx.fillStyle = 'white';
+		this.ctx.fillRect(0, 0, this.board.width, this.board.height);
 		document.body.prepend(this.board);
 
 		this.board.addEventListener('click', onClick);
