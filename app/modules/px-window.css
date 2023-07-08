@@ -28,25 +28,40 @@
 	padding: 2px;
 	display: flex;
 }
-
-.px-window .px-window-title .px-window-close {
+.px-window .px-window-title .px-window-button:first-of-type {
 	margin-left: auto;
+}
+
+.px-window .px-window-title .px-window-button {
 	margin-right: 3px;
 	background: none;
 	border: none;
 	padding: 0;
+	transition: color 0.5s;
+}
+
+.px-window .px-window-title .px-window-button:hover {
+	color: red;
+}
+
+.px-window .px-window-title .px-window-button.px-window-minimize {
+	/* How does this setting makes sense? But this way the minimize button is the same height as the close button */
+	font-size: 1em;
+}
+
+.px-window .px-window-title .px-window-button.px-window-minimize::before {
+	/* content: '\2228'; */
+	content: 'v';
+}
+
+.px-window .px-window-title .px-window-button.px-window-close {
 	font-size: 1.3em;
 	/* to compensate for the bigger font-size we need a negative margin at top and bottom */
 	margin-top: -5px;
 	margin-bottom: -5px;
-	transition: color 0.5s;
 }
 
-.px-window .px-window-title .px-window-close:hover {
-	color: red;
-}
-
-.px-window .px-window-title .px-window-close::before {
+.px-window .px-window-title .px-window-button.px-window-close::before {
 	content: '\d7';
 }
 
