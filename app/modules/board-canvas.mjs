@@ -11,11 +11,10 @@ class BoardCanvas {
 		// https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently
 		// on my computer this setting has no effect on the performance
 		// only one less warning in the chrome developer console
-		//this.ctx = this.board.getContext('2d', {willReadFrequently: true, alpha: false});
-		this.ctx = this.board.getContext('2d');
+		this.ctx = this.board.getContext('2d', {willReadFrequently: true, alpha: false});
+		// this.ctx = this.board.getContext('2d');
 		// with the parameter alpha: false we get a black background, but we want a white one
-		this.ctx.fillStyle = 'white';
-		this.ctx.fillRect(0, 0, this.board.width, this.board.height);
+		this.clearPixelData();
 		document.body.prepend(this.board);
 
 		this.board.addEventListener('click', onClick);
@@ -26,6 +25,11 @@ class BoardCanvas {
 			width: this.board?.scrollWidth ?? 0,
 			height: this.board?.scrollHeight ?? 0
 		};
+	}
+
+	clearPixelData() {
+		this.ctx.fillStyle = 'white';
+		this.ctx.fillRect(0, 0, this.board.width, this.board.height);
 	}
 
 	getPixelData() {
@@ -47,6 +51,7 @@ class BoardCanvas {
 	}
 
 	setPixelData(data) {
+		this.clearPixelData();
 		for (let x=0; x<data.length; x++) {
 			for (let y=0; y<data[x].length; y++) {
 				let color = data[x][y];
