@@ -2,18 +2,26 @@ class PxWindow {
 	wnd = null;
 	wndTitle = null;
 	btnClose = null;
+	btnMinimize = null;
 	wndContent = null;
 
 	offsetX = null;
 	offsetY = null;
 
-	constructor(title) {
+	closeable = false;
+	minimizeable = false;
+
+	constructor(title, options = {}) {
+		this.closeable = options.closeable ?? this.closeable;
+		this.minimizeable = options.minimizeable ?? this.minimizeable;
+
 		this.createWindow(title);
 		this.addCSS();
 		this.bindEvents();
 
 		this.wndTitle.addEventListener('mousedown', this.startMove);
-		this.btnClose.addEventListener('click', this.close);
+		this.btnMinimize?.addEventListener('click', this.minimize);
+		this.btnClose?.addEventListener('click', this.close);
 	}
 
 	addCSS() {
@@ -31,12 +39,20 @@ class PxWindow {
 		this.wnd.insertAdjacentHTML('afterbegin', `
 			<div class="px-window-title">
 				<span class="px-window-title-text">${title}</span>
-				<button class="px-window-close"/>
 			</div>
 			<div class="px-window-content"/>
 		`);
 		this.wndTitle = this.wnd.querySelector('.px-window-title');
-		this.btnClose = this.wndTitle.querySelector('.px-window-close');
+		if (this.minimizeable) {
+			this.btnMinimize = document.createElement('button');
+			this.btnMinimize.classList.add('px-window-button', 'px-window-minimize');
+			this.wndTitle.append(this.btnMinimize);
+		}
+		if (this.closeable) {
+			this.btnClose = document.createElement('button');
+			this.btnClose.classList.add('px-window-button', 'px-window-close');
+			this.wndTitle.append(this.btnClose);
+		}
 		this.wndContent = this.wnd.querySelector('.px-window-content');
 
 		// initialize left and top, so the transition for closing works
@@ -54,7 +70,8 @@ class PxWindow {
 		this.move = this.move.bind(this);
 		this.startMove = this.startMove.bind(this);
 		this.open = this.open.bind(this);
-		this.close = this.close.bind(this);
+		if (this.minimizeable) this.minimize = this.minimize.bind(this);
+		if (this.closeable) this.close = this.close.bind(this);
 		this.openDone = this.openDone.bind(this);
 	}
 
@@ -62,15 +79,30 @@ class PxWindow {
 		this.wndContent.append(item);
 	}
 
+	minimize(event) {
+		if (this.minimizeable) {
+			this.wnd.classList.add('transition');
+			this.wnd.classList.add('closed');
+			window.removeEventListener('mousemove', this.move);
+			this.wndTitle.removeEventListener('mouseDown', this.startMove);
+			this.btnMinimize?.removeEventListener('click', this.minimize);
+			this.btnClose?.removeEventListener('click', this.close);
+			// if we don't stop the event, the window will be opened again immediately
+			event.stopImmediatePropagation();
+			this.wnd.addEventListener('click', this.open);
+		}
+	}
+	
 	close(event) {
-		this.wnd.classList.add('transition');
-		this.wnd.classList.add('closed');
-		window.removeEventListener('mousemove', this.move);
-		this.wndTitle.removeEventListener('mouseDown', this.startMove);
-		this.btnClose.removeEventListener('click', this.close);
-		// if we don't stop the event, the window will be opened again immediately
-		event.stopImmediatePropagation();
-		this.wnd.addEventListener('click', this.open);
+		if (this.closeable) {
+			window.removeEventListener('mousemove', this.move);
+			this.wndTitle.removeEventListener('mousedown', this.startMove);
+			this.wnd.removeEventListener('click', this.open);
+			this.btnMinimize?.removeEventListener('click', this.minimize);
+			this.btnClose?.removeEventListener('click', this.close);
+			this.wnd.removeEventListener('transitionend', this.openDone);
+			this.wnd.remove();
+		}
 	}
 
 	open(event) {
@@ -84,7 +116,8 @@ class PxWindow {
 
 		this.wnd.removeEventListener('click', this.open);
 		this.wndTitle.addEventListener('mouseDown', this.startMove);
-		this.btnClose.addEventListener('click', this.close);
+		this.btnMinimize?.addEventListener('click', this.minimize);
+		this.btnClose?.addEventListener('click', this.close);
 	}
 
 	openDone(event) {
