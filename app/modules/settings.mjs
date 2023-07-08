@@ -26,6 +26,7 @@ class Settings {
 					<option value="svg">SVG</option>
 				</select>
 			</label>
+			<button id="btn-load">Load</button>
 			<button id="btn-save">Save</button>
 			<div class="walker-list"/>
 		`);
@@ -34,6 +35,7 @@ class Settings {
 		selectorBoard.addEventListener('input', this.selectBoard.bind(this));
 		let btnSave = this.wndSetting.querySelector('#btn-save');
 		btnSave.addEventListener('click', this.save.bind(this));
+		this.wndSetting.querySelector('#btn-load').addEventListener('click', this.load.bind(this));
 	}
 
 	get content() {
@@ -49,6 +51,20 @@ class Settings {
 
 	save() {
 		this.storage.save(this.createStorageData());
+	}
+
+	load() {
+		let data = this.storage.load('Pixel Mover Data');
+		if (data) {
+			this.board.setPixelData(data.pixels);
+			this.lstWalkerController.forEach(wc => {
+				wc.remove();
+			});
+			this.lstWalkerController.length = 0;
+			for (let walkerData of data.walkers) {
+				this.createWalkerController(new Walker({data: walkerData}));
+			}
+		}
 	}
 
 	selectBoard(event) {
@@ -77,7 +93,11 @@ class Settings {
 	}
 
 	createWalker(event) {
-		let walker = new Walker(event.offsetX, event.offsetY, this.board.size);
+		let walker = new Walker({x: event.offsetX, y: event.offsetY, size: this.board.size});
+		this.createWalkerController(walker);
+	}
+
+	createWalkerController(walker) {
 		let walkerController = new WalkerController(walker);
 		walkerController.setBoard(this.board);
 		walkerController.start();

@@ -44,6 +44,13 @@ class WalkerController {
 		else this.start();
 	}
 
+	remove() {
+		this.stop();
+		this.controller.removeEventListener('click', this);
+		this.walkerHighlighter.remove();
+		this.controller.remove();
+	}
+
 	getData() {
 		return this.#walker.getData();
 	}

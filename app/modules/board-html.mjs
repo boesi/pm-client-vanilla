@@ -36,7 +36,14 @@ class BoardHTML {
 		return data;
 	}
 
+	clearPixelData() {
+		for (let pixel of this.board.querySelectorAll('.pixel')) {
+			this.board.remove(pixel);
+		}
+	}
+
 	setPixelData(data) {
+		this.clearPixelData();
 		for (let x=0; x<data.length; x++) {
 			for (let y=0; y<data[x].length; y++) {
 				let color = data[x][y];

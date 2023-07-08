@@ -69,13 +69,17 @@ class Walker {
 		return {x: this.#data.x, y: this.#data.y};
 	}
 
-	constructor(x, y, size) {
-		x = x ?? this.getRandomIntInclusive(size.width);
-		y = y ?? this.getRandomIntInclusive(size.height);
-		this.#data = new WalkerData(x, y, size.width - 1, size.height - 1);
-		this.#data.red = this.getRandomIntInclusive(this.#data.maxColor);
-		this.#data.green = this.getRandomIntInclusive(this.#data.maxColor);
-		this.#data.blue = this.getRandomIntInclusive(this.#data.maxColor);
+	constructor({x, y, size, data} = {}) {
+		if (data) {
+			this.#data = data;
+		} else {
+			x = x ?? this.getRandomIntInclusive(size.width);
+			y = y ?? this.getRandomIntInclusive(size.height);
+			this.#data = new WalkerData(x, y, size.width - 1, size.height - 1);
+			this.#data.red = this.getRandomIntInclusive(this.#data.maxColor);
+			this.#data.green = this.getRandomIntInclusive(this.#data.maxColor);
+			this.#data.blue = this.getRandomIntInclusive(this.#data.maxColor);
+		}
 	}
 
 	getRandomIntInclusive(min, max) {
