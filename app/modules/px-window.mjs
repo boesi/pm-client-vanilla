@@ -46,11 +46,13 @@ class PxWindow {
 		if (this.minimizeable) {
 			this.btnMinimize = document.createElement('button');
 			this.btnMinimize.classList.add('px-window-button', 'px-window-minimize');
+			this.btnMinimize.setAttribute('aria-label', 'Minimize Window');
 			this.wndTitle.append(this.btnMinimize);
 		}
 		if (this.closeable) {
 			this.btnClose = document.createElement('button');
 			this.btnClose.classList.add('px-window-button', 'px-window-close');
+			this.btnClose.setAttribute('aria-label', 'Close Window');
 			this.wndTitle.append(this.btnClose);
 		}
 		this.wndContent = this.wnd.querySelector('.px-window-content');
