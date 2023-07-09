@@ -44,7 +44,7 @@ body {
 }
 
 @media print {
-	.settings {
+	.settings, .walker-highlighter {
 		display: none;
 	}
 }
