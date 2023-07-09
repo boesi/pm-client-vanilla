@@ -5,6 +5,9 @@ class WalkerController {
 	controller = null;
 	board = null;
 
+	walkerHighlighterHeight = 0;
+	walkerHighlighterWidth = 0;
+
 	constructor(walker) {
 		this.#walker = walker;
 		this.controller = document.createElement('button');
@@ -12,6 +15,9 @@ class WalkerController {
 		this.walkerHighlighter = document.createElement('span');
 		this.walkerHighlighter.classList.add('walker-highlighter');
 		document.body.append(this.walkerHighlighter);
+		// clientHeight and clientWidth are a bit time consuming, and because they never change, we just need to call them once
+		this.walkerHighlighterHeight = this.walkerHighlighter.clientHeight;
+		this.walkerHighlighterWidth = this.walkerHighlighter.clientWidth;
 	}
 
 	setBoard(board) {
@@ -25,8 +31,8 @@ class WalkerController {
 
 	doWork() {
 		let {x, y} = this.#walker.move();
-		this.walkerHighlighter.style.left = `${x - this.walkerHighlighter.clientWidth / 2}px`;
-		this.walkerHighlighter.style.top = `${y - this.walkerHighlighter.clientHeight / 2}px`;
+		this.walkerHighlighter.style.left = `${x - this.walkerHighlighterWidth / 2}px`;
+		this.walkerHighlighter.style.top = `${y - this.walkerHighlighterHeight / 2}px`;
 		if (this.board) {
 			let color = this.#walker.getMergedColor(this.board.getPixelColor(x, y));
 			this.board.setPixelColor(x, y, color);
