@@ -1,3 +1,6 @@
+import ColorConversion from './utils/ColorConversion.mjs';
+import config from '../config.js';
+
 class WalkerData {
 	maxColor = 255;
 	maxX = 300;
@@ -47,22 +50,17 @@ class Walker {
 		this.#data.y = y;
 	}
 
-	#regexColors = /[^\d]*(\d{1,3})[^\d]*(\d{1,3})[^\d]*(\d{1,3}).*/;
-
 	getMergedColor(strColor) {
 		if (strColor) {
-			let result = this.#regexColors.exec(strColor);
-			try {
-				let [strColor2, red, green, blue] = result;
-				red   = Math.round(this.#data.mergeFactor * this.#data.red   + (1 - this.#data.mergeFactor) * Number.parseInt(red));
-				blue  = Math.round(this.#data.mergeFactor * this.#data.blue  + (1 - this.#data.mergeFactor) * Number.parseInt(blue));
-				green = Math.round(this.#data.mergeFactor * this.#data.green + (1 - this.#data.mergeFactor) * Number.parseInt(green));
-				if (red != undefined && blue != undefined && green != undefined) return `rgb(${red}, ${green}, ${blue})`;
-			} catch (error) {
-				console.error('===> Walker.getMergedColor', {result, error});
+			let [red, green, blue] = ColorConversion.stringToNumber(config.colorType, strColor);
+			if (red != undefined && blue != undefined && green != undefined) {
+				red   = Math.round(this.#data.mergeFactor * this.#data.red   + (1 - this.#data.mergeFactor) * red);
+				blue  = Math.round(this.#data.mergeFactor * this.#data.blue  + (1 - this.#data.mergeFactor) * blue);
+				green = Math.round(this.#data.mergeFactor * this.#data.green + (1 - this.#data.mergeFactor) * green);
+				return ColorConversion.numberToString(config.colorType, red, green, blue);
 			}
 		}
-		return `rgb(${this.#data.red}, ${this.#data.green}, ${this.#data.blue})`;
+		return ColorConversion.numberToString(config.colorType, this.#data.red, this.#data.green, this.#data.blue);
 	}
 
 	getPosition() {

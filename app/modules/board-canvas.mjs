@@ -1,3 +1,6 @@
+import ColorConversion from './utils/ColorConversion.mjs';
+import config from '../config.js';
+
 class BoardCanvas {
 	board = null;
 	ctx = null;
@@ -43,7 +46,11 @@ class BoardCanvas {
 				let coord = this.getRedIndexForCoord(x, y, this.board.width);
 				let [red, green, blue, alpha] = imgData.slice(coord, coord+4);
 				if (alpha !== 0) {
-					data[x][y] = `rgb(${red}, ${green}, ${blue})`;
+					// although white is just a regular color, we assume that here is no pixel, so the other boards do not overload
+					// and for the canvas board "no pixel" means the same as "white pixel"
+					if (red !== 255 && green !== 255 && blue !== 255) {
+						data[x][y] = ColorConversion.numberToString(config.colorType, red, green, blue);
+					}
 				}
 			}
 		}
@@ -76,7 +83,7 @@ class BoardCanvas {
 		let imgData = this.ctx.getImageData(0, 0, this.board.width, this.board.height).data;
 		let coord = this.getRedIndexForCoord(x, y, this.board.width);
 		let [red, green, blue, alpha] = imgData.slice(coord, coord+4);
-		if (alpha !== 0) return `rgb(${red}, ${green}, ${blue})`;
+		if (alpha !== 0) return ColorConversion.numberToString(config.colorType, red, green, blue);
 		return;
 	}
 

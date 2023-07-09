@@ -1,3 +1,6 @@
+import ColorConversion from './utils/ColorConversion.mjs';
+import config from '../config.js';
+
 class BoardHTML {
 	board = document.createElement('div');
 	className = 'board-html';
@@ -31,14 +34,14 @@ class BoardHTML {
 		for (let pixel of this.board.querySelectorAll('.pixel')) {
 			let x = /^\d+/.exec(pixel.style.left)[0];
 			let y = /^\d+/.exec(pixel.style.top)[0];
-			data[x][y] = pixel.style['background-color'];
+			data[x][y] = ColorConversion.stringToString(config.colorType, pixel.style['background-color']);
 		}
 		return data;
 	}
 
 	clearPixelData() {
 		for (let pixel of this.board.querySelectorAll('.pixel')) {
-			this.board.remove(pixel);
+			pixel.remove();
 		}
 	}
 
@@ -62,7 +65,7 @@ class BoardHTML {
 	}
 
 	getPixelColor(x, y) {
-		return this.getPixel(x, y)?.style['background-color'];
+		return ColorConversion.stringToString(config.colorType, this.getPixel(x, y)?.style['background-color']);
 	}
 
 	getPixel(x, y) {
@@ -75,6 +78,7 @@ class BoardHTML {
 		pixel.classList.add('pixel');
 		pixel.style.left = `${x}px`;
 		pixel.style.top = `${y}px`;
+		this.board.append(pixel);
 		return pixel;
 	}
 
@@ -82,9 +86,6 @@ class BoardHTML {
 		if (this.board) {
 			let pixel = this.getPixel(x, y) ?? this.#createPixel(x, y);
 			pixel.style['background-color'] = color;
-			// if the pixel is already in the dom tree, we need to move it to the end
-			// svg always respect the order of the dom tree
-			this.board.append(pixel);
 		}
 	}
 }

@@ -1,4 +1,6 @@
 import BoardHTML from './board-html.mjs';
+import ColorConversion from './utils/ColorConversion.mjs';
+import config from '../config.js';
 
 class BoardSVG extends BoardHTML {
 	board = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -14,7 +16,7 @@ class BoardSVG extends BoardHTML {
 		let data = Array(size.width);
 		for (let x=0; x<data.length; x++) data[x] = Array(size.height);
 		for (let pixel of this.board.querySelectorAll('.pixel')) {
-			data[pixel.getAttribute('cx')][pixel.getAttribute('cy')] = pixel.style.fill;
+			data[pixel.getAttribute('cx')][pixel.getAttribute('cy')] = ColorConversion.stringToString(config.colorType, pixel.style.fill);
 		}
 		return data;
 	}
@@ -34,7 +36,7 @@ class BoardSVG extends BoardHTML {
 	}
 
 	getPixelColor(x, y) {
-		return this.getPixel(x, y)?.style.fill;
+		return ColorConversion.stringToString(config.colorType, this.getPixel(x, y)?.style.fill);
 	}
 
 	setPixelColor(x, y, color) {
