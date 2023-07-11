@@ -93,7 +93,8 @@ class Settings {
 	}
 
 	createWalker(event) {
-		let walker = new Walker({x: event.offsetX, y: event.offsetY, size: this.board.size});
+		console.log('===> Settings.createWalker', {event});
+		let walker = new Walker({x: event.pageX, y: event.pageY, size: this.board.size});
 		this.createWalkerController(walker);
 	}
 
