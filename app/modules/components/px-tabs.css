@@ -1,0 +1,44 @@
+.px-tabs {
+	display: flex;
+	flex-direction: column;
+}
+
+.px-tabs-list {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	column-gap: 1px;
+	background-color: #000;
+	margin-bottom: 3px;
+}
+
+.px-tabs-link {
+	text-decoration: none;
+	text-align: center;
+	background-color: #fff;
+	color: #000;
+}
+
+.px-tabs-link:not(:first-of-type) {
+	border-left: 2px solid #fff;
+}
+
+.px-tabs-link:not(:last-of-type) {
+	border-right: 2px solid #fff;
+}
+
+.px-tabs-link:not(.active):hover {
+	background-color: #ccc;
+	cursor: pointer;
+}
+
+.px-tabs-link.active {
+	background-color: #aaa;
+}
+
+.px-tabs-content {
+	display: none;
+}
+
+.px-tabs-content.active {
+	display: block;
+}
