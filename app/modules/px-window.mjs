@@ -1,3 +1,5 @@
+import CSSHelpers from './utils/css-helpers.mjs';
+
 class PxWindow {
 	wnd = null;
 	wndTitle = null;
@@ -16,21 +18,12 @@ class PxWindow {
 		this.minimizeable = options.minimizeable ?? this.minimizeable;
 
 		this.createWindow(title);
-		this.addCSS();
+		CSSHelpers.addCSS('modules/px-window.css');
 		this.bindEvents();
 
 		this.wndTitle.addEventListener('mousedown', this.startMove);
 		this.btnMinimize?.addEventListener('click', this.minimize);
 		this.btnClose?.addEventListener('click', this.close);
-	}
-
-	addCSS() {
-		var head = document.getElementsByTagName('HEAD')[0];
-		var link = document.createElement('link');
-		link.rel = 'stylesheet';
-		link.type = 'text/css';
-		link.href = 'modules/px-window.css';
-		head.appendChild(link);
 	}
 
 	createWindow(title) {
