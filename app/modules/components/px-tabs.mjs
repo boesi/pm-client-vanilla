@@ -46,7 +46,6 @@ class PxTabs {
 	}
 
 	selectTab(event) {
-		console.log('===> PxTabs.selectTab', {event});
 		for (let elLink of this.wndTabList.getElementsByClassName('px-tabs-link')) {
 			elLink.classList.remove('active')
 		}
