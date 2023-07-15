@@ -1,4 +1,4 @@
-import CSSHelpers from './utils/css-helpers.mjs';
+import CSSHelpers from '/modules/utils/css-helpers.mjs';
 
 class PxWindow {
 	wnd = null;
@@ -18,7 +18,7 @@ class PxWindow {
 		this.minimizeable = options.minimizeable ?? this.minimizeable;
 
 		this.createWindow(title);
-		CSSHelpers.addCSS('modules/px-window.css');
+		CSSHelpers.addCSS('modules/components/px-window.css');
 		this.bindEvents();
 
 		this.wndTitle.addEventListener('mousedown', this.startMove);

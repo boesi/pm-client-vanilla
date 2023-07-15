@@ -1,4 +1,4 @@
-import CSSHelper from '/modules/utils/css-helpers.mjs';
+import CSSHelpers from '/modules/utils/css-helpers.mjs';
 
 class PxTabs {
 	wndContent = null;
@@ -6,7 +6,7 @@ class PxTabs {
 
 	constructor() {
 		this.createWinContent();
-		CSSHelper.addCSS('modules/components/px-tabs.css');
+		CSSHelpers.addCSS('modules/components/px-tabs.css');
 		this.bindEvents();
 	}
 
