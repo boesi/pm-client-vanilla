@@ -1,5 +1,5 @@
 'use strict';
-import PxWindow from './modules/px-window.mjs';
+import PxWindow from './modules/components/px-window.mjs';
 import PxTabs from './modules/components/px-tabs.mjs';
 import Settings from './modules/settings.mjs';
 import StorageSettings from './modules/storage-settings.mjs';
