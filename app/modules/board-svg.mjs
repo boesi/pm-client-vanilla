@@ -1,5 +1,5 @@
 import BoardHTML from './board-html.mjs';
-import ColorConversion from './utils/ColorConversion.mjs';
+import ColorConversion from './utils/color-conversion.mjs';
 import config from '../config.js';
 
 class BoardSVG extends BoardHTML {
