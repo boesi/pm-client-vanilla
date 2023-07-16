@@ -1,4 +1,4 @@
-import ColorConversion from './utils/ColorConversion.mjs';
+import ColorConversion from './utils/color-conversion.mjs';
 import config from '../config.js';
 
 class BoardHTML {
