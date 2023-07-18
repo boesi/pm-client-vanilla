@@ -1,0 +1,16 @@
+.px-message {
+	display: none;
+}
+
+.px-message.px-show {
+	display: inherit;
+}
+
+.px-info {
+	color: #00f;
+}
+
+.px-error {
+	color: #f00;
+}
+
