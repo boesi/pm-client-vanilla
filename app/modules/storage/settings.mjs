@@ -1,10 +1,12 @@
 import ProviderLocal from './provider-local.mjs';
+import PxMessage from '/modules/components/px-message.mjs';
 import StorageData from './data.mjs';
 
 class StorageSettings {
 	wndSetting = null;
 	provider = ProviderLocal;
 	boardData = null;
+	message = new PxMessage();
 	
 	constructor(boardData) {
 		this.boardData = boardData;
@@ -14,6 +16,7 @@ class StorageSettings {
 			<button id="btn-load">Load</button>
 			<button id="btn-save">Save</button>
 		`);
+		this.wndSetting.append(this.message.content);
 		let btnSave = this.wndSetting.querySelector('#btn-save');
 		this.bindEvents();
 		btnSave.addEventListener('click', this.save);
@@ -37,10 +40,18 @@ class StorageSettings {
 	}
 
 	save() {
-		this.provider.save(this.createStorageData());
+		this.message.clear();
+		try {
+			this.provider.save(this.createStorageData());
+			this.message.setInfo('PixelData saved');
+		} catch(error) {
+			this.message.setError('Failed to save save PixelData');
+			console.error('===> storage/settings.save', {error});
+		}
 	}
 
 	load() {
+		this.message.clear();
 		let data = this.provider.load('Pixel Mover Data');
 		if (data) {
 			this.boardData.setPixelData(data.pixels);
