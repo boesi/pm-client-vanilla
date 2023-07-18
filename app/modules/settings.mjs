@@ -3,17 +3,14 @@ import WalkerController from './walker-controller.mjs';
 import BoardSVG from './board-svg.mjs';
 import BoardHTML from './board-html.mjs';
 import BoardCanvas from './board-canvas.mjs';
-import StorageLocal from './storage/storage-local.mjs';
-import StorageData from './storage/storage-data.mjs';
 
 class Settings {
-	board = null;
+	boardData = null;
 	wndSetting = null;
 	wndWalkerList = null;
-	lstWalkerController = [];
-	storage = StorageLocal;
 
-	constructor() {
+	constructor(boardData) {
+		this.boardData = boardData;
 		this.wndSetting = document.createElement('div');
 		this.wndSetting.classList.add('settings');
 		this.wndSetting.insertAdjacentHTML('afterbegin', `
@@ -30,7 +27,16 @@ class Settings {
 		`);
 		this.wndWalkerList = this.wndSetting.querySelector('.walker-list');
 		let selectorBoard = this.wndSetting.querySelector('.board-type select');
-		selectorBoard.addEventListener('input', this.selectBoard.bind(this));
+		this.bindEvents();
+
+		selectorBoard.addEventListener('input', this.selectBoard);
+		document.addEventListener('new-walkers', this.receiveWalkers);
+	}
+
+	bindEvents() {
+		this.createWalker = this.createWalker.bind(this);
+		this.selectBoard = this.selectBoard.bind(this);
+		this.receiveWalkers = this.receiveWalkers.bind(this);
 	}
 
 	get content() {
@@ -39,42 +45,37 @@ class Settings {
 
 
 	selectBoard(event) {
-		let pixelData = null;
-		if (this.board) {
-			pixelData = this.board.getPixelData();
-			this.board.remove();
-		}
 		switch (event.srcElement.value) {
 			case 'canvas':
-				this.board = new BoardCanvas(this.createWalker.bind(this));
+				this.boardData.setBoard(new BoardCanvas(this.createWalker));
 				break;
 			case 'html':
-				this.board = new BoardHTML(this.createWalker.bind(this));
+				this.boardData.setBoard(new BoardHTML(this.createWalker));
 				break;
 			case 'svg':
-				this.board = new BoardSVG(this.createWalker.bind(this));
+				this.boardData.setBoard(new BoardSVG(this.createWalker));
 				break;
 			default:
 				break;
 		}
-		if (this.board) {
-			if (pixelData) this.board.setPixelData(pixelData);
-			this.lstWalkerController.forEach(wc => wc.setBoard(this.board));
+	}
+
+	receiveWalkers(event) {
+		console.log('===> Settings.receiveWalkers', {event});
+		for (let walkerData of event.detail.walkers) {
+			this.createWalkerController(new Walker({data: walkerData}));
 		}
 	}
 
 	createWalker(event) {
-		console.log('===> Settings.createWalker', {event});
-		let walker = new Walker({x: event.pageX, y: event.pageY, size: this.board.size});
-		this.createWalkerController(walker);
+		this.createWalkerController(new Walker({x: event.pageX, y: event.pageY, size: this.boardData.size}));
 	}
 
 	createWalkerController(walker) {
 		let walkerController = new WalkerController(walker);
-		walkerController.setBoard(this.board);
-		walkerController.start();
-		this.lstWalkerController.push(walkerController);
+		this.boardData.addWalkerController(walkerController);
 		this.wndWalkerList.append(walkerController.controller);
+		walkerController.start();
 	}
 }
 

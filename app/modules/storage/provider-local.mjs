@@ -1,5 +1,4 @@
 class StorageLocal {
-	static storage = window.localStorage;
 
 	static save(data) {
 		window.localStorage.setItem(data.name, JSON.stringify(data));
