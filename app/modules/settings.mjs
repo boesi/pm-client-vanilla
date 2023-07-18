@@ -61,7 +61,6 @@ class Settings {
 	}
 
 	receiveWalkers(event) {
-		console.log('===> Settings.receiveWalkers', {event});
 		for (let walkerData of event.detail.walkers) {
 			this.createWalkerController(new Walker({data: walkerData}));
 		}
