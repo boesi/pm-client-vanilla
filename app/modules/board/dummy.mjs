@@ -22,7 +22,7 @@ class BoardDummy {
 	}
 
 	click(event) {
-		let options = {x: event.pageX, y: event.pageY};
+		let options = {x: event.pageX, y: event.pageY, autohide: true};
 		this.#pxMessage.setError('Please select a board before you add a walker.', options);
 	}
 
