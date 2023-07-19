@@ -45,7 +45,7 @@ class StorageSettings {
 			this.provider.save(this.createStorageData());
 			this.message.setInfo('PixelData saved');
 		} catch(error) {
-			this.message.setError('Failed to save save PixelData');
+			this.message.setError('Failed to save PixelData');
 			console.error('===> storage/settings.save', {error});
 		}
 	}
