@@ -21,12 +21,24 @@ class PxMessage {
 		this.wndContent.classList.add('px-' + type, 'px-show');
 	}
 
-	setInfo(message) {
-		this.setMessage('info', message);
+	setPosition({x, y} = {}) {
+		if (x == null && y == null) {
+			this.wndContent.classList.remove('px-absolute');
+		} else {
+			this.wndContent.classList.add('px-absolute');
+		}
+		this.wndContent.style['left'] = x == null ? null : `${x}px`;
+		this.wndContent.style['top'] = y == null ? null : `${y}px`;
 	}
 
-	setError(message) {
+	setInfo(message, options = {}) {
+		this.setMessage('info', message);
+		this.setPosition(options);
+	}
+
+	setError(message, options = {}) {
 		this.setMessage('error', message);
+		this.setPosition(options);
 	}
 
 	clear() {
