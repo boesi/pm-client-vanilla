@@ -1,6 +1,6 @@
-import BoardHTML from './board-html.mjs';
-import ColorConversion from './utils/color-conversion.mjs';
-import config from '../config.js';
+import BoardHTML from './html.mjs';
+import ColorConversion from '/modules/utils/color-conversion.mjs';
+import config from '/config.js';
 
 class BoardSVG extends BoardHTML {
 	board = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
