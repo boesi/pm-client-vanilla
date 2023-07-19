@@ -1,5 +1,5 @@
-import ColorConversion from './utils/color-conversion.mjs';
-import config from '../config.js';
+import ColorConversion from '/modules/utils/color-conversion.mjs';
+import config from '/config.js';
 
 class BoardHTML {
 	board = document.createElement('div');

@@ -1,8 +1,8 @@
 import Walker from './walker.mjs';
 import WalkerController from './walker-controller.mjs';
-import BoardSVG from './board-svg.mjs';
-import BoardHTML from './board-html.mjs';
-import BoardCanvas from './board-canvas.mjs';
+import BoardSVG from '/modules/board/svg.mjs';
+import BoardHTML from '/modules/board/html.mjs';
+import BoardCanvas from '/modules/board/canvas.mjs';
 
 class Settings {
 	boardData = null;
@@ -24,7 +24,7 @@ class Settings {
 			</label>
 			<div id="walker-list"/>
 		`);
-		this.wndWalkerList = document.getElementById('walker-list');
+		this.wndWalkerList = this.wndSetting.getElementById('walker-list');
 		let selectorBoard = this.wndSetting.querySelector('#board-type select');
 		this.bindEvents();
 
