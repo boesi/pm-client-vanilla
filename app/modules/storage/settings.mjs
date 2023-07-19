@@ -52,12 +52,17 @@ class StorageSettings {
 
 	load() {
 		this.message.clear();
-		let data = this.provider.load('Pixel Mover Data');
-		if (data) {
-			this.boardData.setPixelData(data.pixels);
-			this.boardData.clearWalkerControllers();
-			const event = new CustomEvent('new-walkers', {detail: {walkers: data.walkers}});
-			document.dispatchEvent(event);
+		try {
+			let data = this.provider.load('Pixel Mover Data');
+			if (data) {
+				this.boardData.setPixelData(data.pixels);
+				this.boardData.clearWalkerControllers();
+				const event = new CustomEvent('new-walkers', {detail: {walkers: data.walkers}});
+				document.dispatchEvent(event);
+			}
+		} catch(error) {
+			this.message.setError('Failed to load PixelData');
+			console.error('===> storage/settings.load', {error});
 		}
 	}
 }
