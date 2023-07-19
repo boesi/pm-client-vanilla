@@ -6,15 +6,14 @@ import BoardCanvas from './board-canvas.mjs';
 
 class Settings {
 	boardData = null;
-	wndSetting = null;
+	wndSetting = document.createElement('div');
 	wndWalkerList = null;
 
 	constructor(boardData) {
 		this.boardData = boardData;
-		this.wndSetting = document.createElement('div');
 		this.wndSetting.classList.add('settings');
 		this.wndSetting.insertAdjacentHTML('afterbegin', `
-			<label class="board-type">
+			<label id="board-type">
 				Board:
 				<select>
 					<option value="---">---</option>
@@ -23,10 +22,10 @@ class Settings {
 					<option value="svg">SVG</option>
 				</select>
 			</label>
-			<div class="walker-list"/>
+			<div id="walker-list"/>
 		`);
-		this.wndWalkerList = this.wndSetting.querySelector('.walker-list');
-		let selectorBoard = this.wndSetting.querySelector('.board-type select');
+		this.wndWalkerList = document.getElementById('walker-list');
+		let selectorBoard = this.wndSetting.querySelector('#board-type select');
 		this.bindEvents();
 
 		selectorBoard.addEventListener('input', this.selectBoard);
