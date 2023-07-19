@@ -6,6 +6,23 @@
 	display: inherit;
 }
 
+.px-message.px-hide {
+	animation: fadeOut 3s;
+}
+
+@keyframes fadeOut {
+	80% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+
+.px-message.px-absolute {
+	position: absolute;
+}
+
 .px-info {
 	color: #00f;
 }
