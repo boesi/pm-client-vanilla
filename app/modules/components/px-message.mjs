@@ -47,12 +47,9 @@ class PxMessage {
 	}
 
 	clear() {
-		console.log('===> PxMessage.clear');
 		this.wndContent.textContent = '';
 		this.wndContent.classList.remove('px-show', 'px-hide', 'px-absolute', ...this.pxMessageTypes);
 		this.wndContent.removeAttribute('style');
-		//this.wndContent.style['left'] = null;
-		//this.wndContent.style['top'] = null;
 		this.wndContent.removeEventListener('animationend', this.clear);
 	}
 }
