@@ -1,31 +1,24 @@
-import ProviderLocal from './provider-local.mjs';
+import Selector from './selector.mjs';
 import PxMessage from '/modules/components/px-message.mjs';
 import StorageData from './data.mjs';
 
 class StorageSettings {
-	wndSetting = null;
-	provider = ProviderLocal;
+	wndSetting = document.createElement('div');
+	#selector = new Selector();
 	boardData = null;
 	message = new PxMessage();
 	
 	constructor(boardData) {
 		this.boardData = boardData;
-		this.wndSetting = document.createElement('div');
 		this.wndSetting.classList.add('setting-storage');
-		this.wndSetting.insertAdjacentHTML('afterbegin', `
+		this.wndSetting.append(this.#selector.content);
+		this.wndSetting.insertAdjacentHTML('beforeend', `
 			<button id="btn-load">Load</button>
 			<button id="btn-save">Save</button>
 		`);
 		this.wndSetting.append(this.message.content);
-		let btnSave = this.wndSetting.querySelector('#btn-save');
-		this.bindEvents();
-		btnSave.addEventListener('click', this.save);
-		this.wndSetting.querySelector('#btn-load').addEventListener('click', this.load);
-	}
-
-	bindEvents() {
-		this.load = this.load.bind(this);
-		this.save = this.save.bind(this);
+		this.wndSetting.querySelector('#btn-save').addEventListener('click', this.save.bind(this));
+		this.wndSetting.querySelector('#btn-load').addEventListener('click', this.load.bind(this));
 	}
 
 	get content() {
@@ -40,9 +33,13 @@ class StorageSettings {
 	}
 
 	save() {
+		if (! this.#selector.provider) {
+			this.message.setError('Please select a storage provider');
+			return;
+		}
 		this.message.clear();
 		try {
-			this.provider.save(this.createStorageData());
+			this.#selector.provider.save(this.createStorageData());
 			this.message.setInfo('PixelData saved');
 		} catch(error) {
 			this.message.setError('Failed to save PixelData');
@@ -51,9 +48,17 @@ class StorageSettings {
 	}
 
 	load() {
+		if (! this.#selector.provider) {
+			this.message.setError('Please select a storage provider');
+			return;
+		}
+		if (! this.boardData.supportPixelData()) {
+			this.message.setError('Please select a board supporting pixel data');
+			return;
+		}
 		this.message.clear();
 		try {
-			let data = this.provider.load('Pixel Mover Data');
+			let data = this.#selector.provider.load('Pixel Mover Data');
 			if (data) {
 				this.boardData.setPixelData(data.pixels);
 				this.boardData.clearWalkerControllers();
