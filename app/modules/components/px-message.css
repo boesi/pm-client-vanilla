@@ -21,6 +21,9 @@
 
 .px-message.px-absolute {
 	position: absolute;
+	margin-top: 2em;
+	z-index: 2000;
+	background-color: #fffa;
 }
 
 .px-info {
