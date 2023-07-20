@@ -33,7 +33,7 @@ class WalkerController {
 		let {x, y} = this.#walker.move();
 		this.walkerHighlighter.style.left = `${x - this.walkerHighlighterWidth / 2}px`;
 		this.walkerHighlighter.style.top = `${y - this.walkerHighlighterHeight / 2}px`;
-		if (this.board) {
+		if (this.board?.supportPixelData()) {
 			let color = this.#walker.getMergedColor(this.board.getPixelColor(x, y));
 			this.board.setPixelColor(x, y, color);
 		}

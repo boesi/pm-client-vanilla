@@ -19,12 +19,22 @@ class BoardData {
 		return this.#board.size;
 	}
 
+	supportPixelData() {
+		return this.#board?.supportPixelData();
+	}
+
 	getPixelData() {
-		return this.#board.getPixelData();
+		if (this.#board?.supportPixelData()) {
+			return this.#board.getPixelData();
+		} else {
+			return null;
+		}
 	}
 
 	setPixelData(pixels) {
-		this.#board.setPixelData(pixels)
+		if (this.#board?.supportPixelData()) {
+			this.#board.setPixelData(pixels)
+		}
 	}
 
 	addWalkerController(walkerController) {

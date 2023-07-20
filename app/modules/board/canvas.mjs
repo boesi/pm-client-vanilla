@@ -57,6 +57,10 @@ class BoardCanvas {
 		return data;
 	}
 
+	supportPixelData() {
+		return true;
+	}
+
 	setPixelData(data) {
 		this.clearPixelData();
 		for (let x=0; x<data.length; x++) {
