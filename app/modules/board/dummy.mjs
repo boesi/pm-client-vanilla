@@ -38,6 +38,10 @@ class BoardDummy {
 		this.board = null;
 	}
 
+	supportPixelData() {
+		return false;
+	}
+
 	getPixelData() {
 		throw new Error('Unsupported method');
 	}
