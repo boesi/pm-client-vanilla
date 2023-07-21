@@ -1,4 +1,4 @@
-class StorageLocal {
+class ProviderLocal {
 
 	static save(data) {
 		window.localStorage.setItem(data.name, JSON.stringify(data));
@@ -19,4 +19,4 @@ class StorageLocal {
 	}
 }
 
-export default StorageLocal;
+export default ProviderLocal;
