@@ -47,6 +47,13 @@ class StorageSettings {
 		}
 	}
 
+	callbackLoad(data) {
+		this.boardData.setPixelData(data.pixels);
+		this.boardData.clearWalkerControllers();
+		const event = new CustomEvent('new-walkers', {detail: {walkers: data.walkers}});
+		document.dispatchEvent(event);
+	}
+
 	load() {
 		if (! this.#selector.provider) {
 			this.message.setError('Please select a storage provider');
@@ -58,13 +65,12 @@ class StorageSettings {
 		}
 		this.message.clear();
 		try {
-			let data = this.#selector.provider.load('Pixel Mover Data');
-			if (data) {
+			this.#selector.provider.load('Pixel Mover Data').onload = data => {
 				this.boardData.setPixelData(data.pixels);
 				this.boardData.clearWalkerControllers();
 				const event = new CustomEvent('new-walkers', {detail: {walkers: data.walkers}});
 				document.dispatchEvent(event);
-			}
+			};
 		} catch(error) {
 			this.message.setError('Failed to load PixelData');
 			console.error('===> storage/settings.load', {error});
