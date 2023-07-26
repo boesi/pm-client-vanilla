@@ -1,21 +1,43 @@
 class ProviderLocal {
 
-	static save(data) {
-		window.localStorage.setItem(data.name, JSON.stringify(data));
+	save(data) {
+		return new Promise((resolve, reject) => {
+			try {
+				window.localStorage.setItem(data.name, JSON.stringify(data));
+				resolve();
+			} catch(error) {
+				reject(error);
+			}
+		});
 	}
 
-	static load(name) {
-		let data = window.localStorage.getItem(name);
-		if (data) {
-			return JSON.parse(data);
-		}
-		return;
+	load(name) {
+		return new Promise((resolve, reject) => {
+			try {
+				let data = window.localStorage.getItem(name);
+				if (data) {
+					data = JSON.parse(data);
+				} else {
+					throw new Error(`Item with name "${name}" not available`);
+				}
+				resolve(data);
+			} catch(error) {
+				reject(error);
+			}
+		});
 	}
 
 	static remove(name) {
-		if (window.localStorage.getItem(name)) {
-			window.localStorage.removeItem(name);
-		}
+		return new Promise((resolve, reject) => {
+			try {
+				if (window.localStorage.getItem(name)) {
+					window.localStorage.removeItem(name);
+				}
+				resolve();
+			} catch(error) {
+				reject(error);
+			}
+		});
 	}
 }
 

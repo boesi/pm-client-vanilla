@@ -30,7 +30,7 @@ class Selector {
 	select(event) {
 		switch (event.srcElement.value) {
 			case 'local':
-				this.#provider = ProviderLocal;
+				this.#provider = new ProviderLocal();
 				break;
 			case 'indexed-db':
 				this.#provider = new ProviderIndexedDb();
