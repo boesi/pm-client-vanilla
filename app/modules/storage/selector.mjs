@@ -1,4 +1,5 @@
 import ProviderLocal from './provider-local.mjs';
+import ProviderIndexedDb from './provider-indexed-db.mjs';
 
 class Selector {
 	#wndSelect = document.createRange().createContextualFragment(`
@@ -6,6 +7,7 @@ class Selector {
 			Provider:
 			<select>
 				<option value="dummy" selected="selected">---</option>
+				<option value="indexed-db">Indexed DB</option>
 				<option value="local">LocalStorage</option>
 			</select>
 		</label>
@@ -29,6 +31,9 @@ class Selector {
 		switch (event.srcElement.value) {
 			case 'local':
 				this.#provider = ProviderLocal;
+				break;
+			case 'indexed-db':
+				this.#provider = new ProviderIndexedDb();
 				break;
 			case 'dummy':
 			default:
