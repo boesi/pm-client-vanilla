@@ -32,14 +32,14 @@ class StorageSettings {
 		return data;
 	}
 
-	save() {
+	async save() {
 		if (! this.#selector.provider) {
 			this.message.setError('Please select a storage provider');
 			return;
 		}
 		this.message.clear();
 		try {
-			this.#selector.provider.save(this.createStorageData());
+			await this.#selector.provider.save(this.createStorageData());
 			this.message.setInfo('PixelData saved');
 		} catch(error) {
 			this.message.setError('Failed to save PixelData');
@@ -54,7 +54,7 @@ class StorageSettings {
 		document.dispatchEvent(event);
 	}
 
-	load() {
+	async load() {
 		if (! this.#selector.provider) {
 			this.message.setError('Please select a storage provider');
 			return;
@@ -65,12 +65,12 @@ class StorageSettings {
 		}
 		this.message.clear();
 		try {
-			this.#selector.provider.load('Pixel Mover Data').onload = data => {
-				this.boardData.setPixelData(data.pixels);
-				this.boardData.clearWalkerControllers();
-				const event = new CustomEvent('new-walkers', {detail: {walkers: data.walkers}});
-				document.dispatchEvent(event);
-			};
+			let data = await this.#selector.provider.load('Pixel Mover Data');
+			this.boardData.setPixelData(data.pixels);
+			this.boardData.clearWalkerControllers();
+			const event = new CustomEvent('new-walkers', {detail: {walkers: data.walkers}});
+			document.dispatchEvent(event);
+			this.message.setInfo('PixelData loaded');
 		} catch(error) {
 			this.message.setError('Failed to load PixelData');
 			console.error('===> storage/settings.load', {error});
