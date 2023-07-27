@@ -42,7 +42,7 @@ class StorageSettings {
 			await this.#selector.provider.save(this.createStorageData());
 			this.message.setInfo('PixelData saved');
 		} catch(error) {
-			this.message.setError('Failed to save PixelData');
+			this.message.setError('Failed to save PixelData', {error});
 			console.error('===> storage/settings.save', {error});
 		}
 	}
@@ -72,7 +72,7 @@ class StorageSettings {
 			document.dispatchEvent(event);
 			this.message.setInfo('PixelData loaded');
 		} catch(error) {
-			this.message.setError('Failed to load PixelData');
+			this.message.setError('Failed to load PixelData', {error});
 			console.error('===> storage/settings.load', {error});
 		}
 	}

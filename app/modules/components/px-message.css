@@ -1,9 +1,16 @@
+:root {
+	--color-bg: #fff;
+	--color-error: #f00;
+	--color-info: #00f;
+}
+
 .px-message {
 	display: none;
 }
 
 .px-message.px-show {
 	display: inherit;
+	user-select: text;
 }
 
 .px-message.px-hide {
@@ -27,10 +34,46 @@
 }
 
 .px-info {
-	color: #00f;
+	color: var(--color-info);
 }
 
 .px-error {
-	color: #f00;
+	color: var(--color-error);
+}
+
+.px-message > div:has(> .detail-button) {
+	display: flex;
+}
+
+.px-message :is(.detail, .detail-button) {
+	display: none;
+}
+
+.px-message .detail.px-show {
+	display: inherit;
+}
+
+.px-message .detail-button.px-show {
+	display: inline;
+	cursor: pointer;
+	user-select: none;
+	margin-left: auto;
+	padding-left: 3px;
+	padding-right: 3px;
+	/* the last two settings are an ugly hack for vertically centering our asterisk */
+	padding-top: 0.7em;
+	line-height: 0;
+}
+
+.px-message .detail-button.px-show:hover {
+	background-color: #ccc;
+}
+
+.px-message .detail-button.px-show.selected {
+	background-color: #aaa;
+}
+
+.px-message .detail-button.px-show::after {
+	content: '\2a';
 }
 
