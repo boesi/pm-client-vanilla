@@ -1,0 +1,17 @@
+.px-button.px-error {
+	color: var(--color-error);
+}
+
+.px-button.px-info {
+	color: var(--color-info);
+}
+
+.px-button.px-clear {
+	animation: fadeOut 3s 2.5s;
+}
+
+@keyframes fadeOut {
+	100% {
+		color: inherit;
+	}
+}
