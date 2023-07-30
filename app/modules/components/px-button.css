@@ -7,10 +7,10 @@
 }
 
 .px-button.px-clear {
-	animation: fadeOut 3s 2.5s;
+	animation: px-clear-fadeOut 3s 2.5s;
 }
 
-@keyframes fadeOut {
+@keyframes px-clear-fadeOut {
 	100% {
 		color: inherit;
 	}
