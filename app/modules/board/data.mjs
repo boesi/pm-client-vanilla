@@ -32,7 +32,7 @@ class BoardData {
 	}
 
 	setPixelData(pixels) {
-		if (this.#board?.supportPixelData()) {
+		if (pixels && this.#board?.supportPixelData()) {
 			this.#board.setPixelData(pixels)
 		}
 	}
