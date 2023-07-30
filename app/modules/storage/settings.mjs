@@ -11,8 +11,8 @@ class StorageSettings {
 		}
 		this.#message.clear();
 		try {
-			await this.#selector.provider.save(this.createStorageData());
-			this.message.setInfo('PixelData saved');
+			await this.#selector.provider.save(this.#createStorageData());
+			this.#message.setInfo('PixelData saved');
 		} catch(error) {
 			this.#message.setError('Failed to save PixelData', {error});
 			this.#btnSave.setError({autoclear: true});
