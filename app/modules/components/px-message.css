@@ -3,7 +3,7 @@
 }
 
 .px-message.px-show {
-	display: inherit;
+	display: block;
 	user-select: text;
 }
 
