@@ -8,13 +8,10 @@
 }
 
 .px-message.px-hide {
-	animation: px-hide-fadeOut 3s;
+	animation: px-hide-fadeOut 3s 2.5s;
 }
 
 @keyframes px-hide-fadeOut {
-	80% {
-		opacity: 1;
-	}
 	100% {
 		opacity: 0;
 	}
