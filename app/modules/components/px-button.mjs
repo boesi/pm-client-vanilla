@@ -1,5 +1,8 @@
 import CSSHelpers from '/modules/utils/css-helpers.mjs';
 
+/**
+ * Facade for a <button>
+ */
 class PxButton {
 	#wndContent = document.createRange().createContextualFragment(`
 		<button class="px-button">
@@ -10,6 +13,21 @@ class PxButton {
 		CSSHelpers.addCSS('modules/components/px-button.css');
 		this.#wndContent.addEventListener('click', onclick);
 		this.setText(text);
+	}
+
+
+	/**
+	 * delegate EventTarget.addEventListener
+	 */
+	addEventListener() {
+		this.#wndContent.addEventListener(...arguments);
+	}
+
+	/**
+	 * delegate EventTarget.removeEventListener
+	 */
+	removeEventListener() {
+		this.#wndContent.removeEventListener(...arguments);
 	}
 
 	get content() {
