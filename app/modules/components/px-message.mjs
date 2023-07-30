@@ -39,8 +39,16 @@ class PxMessage {
 		);
 		this.#wndContent.classList.add('px-' + type, 'px-show');
 		if (options.autohide) {
-			this.#wndContent.classList.add('px-hide');
-			this.#wndContent.addEventListener('animationend', this.clear);
+			// we need to stop an old animation, to start a new one
+			for (let animation of this.#wndContent.getAnimations()) {
+				this.#wndContent.classList.remove('px-hide');
+				animation.finish();
+			}
+			// if there was an old animation we need to get in the next event loop
+			setTimeout(() => {
+				this.#wndContent.classList.add('px-hide');
+				this.#wndContent.addEventListener('animationend', this.clear);
+			});
 		}
 		if (options.error) {
 			this.#wndDetailButton.classList.add('px-show');
