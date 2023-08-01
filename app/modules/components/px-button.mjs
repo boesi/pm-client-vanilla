@@ -42,17 +42,20 @@ class PxButton {
 		console.log('===> PxButton.setError', options);
 		this.#wndContent.classList.add('px-error');
 		if (options.autoclear) {
-			this.#wndContent.classList.add('px-clear');
-			this.#wndContent.addEventListener('animationend', this.clear);
+			this.#autoclear();
 		}
 	}
 
 	setInfo(options = {}) {
 		this.#wndContent.classList.add('px-info');
 		if (options.autoclear) {
-			this.#wndContent.classList.add('px-clear');
-			this.#wndContent.addEventListener('animationend', this.clear);
+			this.#autoclear();
 		}
+	}
+
+	#autoclear() {
+		this.#wndContent.classList.add('px-clear');
+		this.#wndContent.addEventListener('animationend', this.clear);
 	}
 	
 	clear = () => {
