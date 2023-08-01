@@ -6,6 +6,9 @@ class WalkerController {
 
 	#controller = new PxButton();
 	board = null;
+	#walkerHighlighter = document.createRange().createContextualFragment(`
+		<span class="walker-highlighter"></span>
+	`).firstElementChild;
 
 	walkerHighlighterHeight = 0;
 	walkerHighlighterWidth = 0;
@@ -15,12 +18,10 @@ class WalkerController {
 		this.#controller.addEventListener('click', this.#click);
 		this.#controller.addEventListener('mouseenter', this.#mouseenter);
 		this.#controller.addEventListener('mouseleave', this.#mouseleave);
-		this.walkerHighlighter = document.createElement('span');
-		this.walkerHighlighter.classList.add('walker-highlighter');
-		document.body.append(this.walkerHighlighter);
+		document.body.append(this.#walkerHighlighter);
 		// clientHeight and clientWidth are a bit time consuming, and because they never change, we just need to call them once
-		this.walkerHighlighterHeight = this.walkerHighlighter.clientHeight;
-		this.walkerHighlighterWidth = this.walkerHighlighter.clientWidth;
+		this.walkerHighlighterHeight = this.#walkerHighlighter.clientHeight;
+		this.walkerHighlighterWidth = this.#walkerHighlighter.clientWidth;
 	}
 
 	get content() {
@@ -38,8 +39,8 @@ class WalkerController {
 
 	doWork() {
 		let {x, y} = this.#walker.move();
-		this.walkerHighlighter.style.left = `${x - this.walkerHighlighterWidth / 2}px`;
-		this.walkerHighlighter.style.top = `${y - this.walkerHighlighterHeight / 2}px`;
+		this.#walkerHighlighter.style.left = `${x - this.walkerHighlighterWidth / 2}px`;
+		this.#walkerHighlighter.style.top = `${y - this.walkerHighlighterHeight / 2}px`;
 		if (this.board?.supportPixelData()) {
 			let color = this.#walker.getMergedColor(this.board.getPixelColor(x, y));
 			this.board.setPixelColor(x, y, color);
@@ -68,7 +69,7 @@ class WalkerController {
 	remove() {
 		this.stop();
 		this.#controller.removeEventListener('click', this);
-		this.walkerHighlighter.remove();
+		this.#walkerHighlighter.remove();
 		this.#controller.remove();
 		this.#controller = null;
 	}
