@@ -13,6 +13,8 @@ class WalkerController {
 	constructor(walker) {
 		this.#walker = walker;
 		this.#controller.addEventListener('click', this);
+		this.#controller.addEventListener('mouseenter', this.#mouseenter);
+		this.#controller.addEventListener('mouseleave', this.#mouseleave);
 		this.walkerHighlighter = document.createElement('span');
 		this.walkerHighlighter.classList.add('walker-highlighter');
 		document.body.append(this.walkerHighlighter);
@@ -49,6 +51,14 @@ class WalkerController {
 		this.#controller.setText('Stopped');
 		this.intervalID = null;
 	}
+
+	#mouseenter = () => {
+		this.#controller.setInfo();
+	};
+
+	#mouseleave = () => {
+		this.#controller.clear();
+	};
 
 	handleEvent() {
 		if (this.intervalID) this.stop();
