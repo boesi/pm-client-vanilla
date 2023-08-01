@@ -32,6 +32,10 @@ body {
 	z-index: 100;
 }
 
+.walker-highlighter.highlight {
+	background-color: #0000ff55;
+}
+
 .settings {
 	display: flex;
 	flex-direction: column;
