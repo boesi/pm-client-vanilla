@@ -50,6 +50,10 @@ class PxButton {
 	clear = () => {
 		this.#wndContent.classList.remove('px-error', 'px-clear');
 	}
+
+	remove() {
+		this.#wndContent.remove();
+	}
 }
 
 export default PxButton;
