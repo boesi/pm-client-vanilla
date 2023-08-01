@@ -35,7 +35,7 @@ class Settings {
 	createWalkerController(walker) {
 		let walkerController = new WalkerController(walker);
 		this.#boardData.addWalkerController(walkerController);
-		this.wndWalkerList.append(walkerController.controller);
+		this.wndWalkerList.append(walkerController.content);
 		walkerController.start();
 	}
 }

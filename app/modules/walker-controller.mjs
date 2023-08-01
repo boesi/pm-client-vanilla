@@ -1,8 +1,10 @@
+import PxButton from '/modules/components/px-button.mjs';
+
 class WalkerController {
 	#walker = null;
 	intervalID = null;
 
-	controller = null;
+	#controller = new PxButton();
 	board = null;
 
 	walkerHighlighterHeight = 0;
@@ -10,8 +12,7 @@ class WalkerController {
 
 	constructor(walker) {
 		this.#walker = walker;
-		this.controller = document.createElement('button');
-		this.controller.addEventListener('click', this);
+		this.#controller.addEventListener('click', this);
 		this.walkerHighlighter = document.createElement('span');
 		this.walkerHighlighter.classList.add('walker-highlighter');
 		document.body.append(this.walkerHighlighter);
@@ -20,12 +21,16 @@ class WalkerController {
 		this.walkerHighlighterWidth = this.walkerHighlighter.clientWidth;
 	}
 
+	get content() {
+		return this.#controller.content;
+	}
+
 	setBoard(board) {
 		this.board = board;
 	}
 
 	start() {
-		this.controller.textContent = 'Started';
+		this.#controller.setText('Started');
 		this.intervalID = setInterval(this.doWork.bind(this), 0);
 	}
 
@@ -41,7 +46,7 @@ class WalkerController {
 	
 	stop() {
 		clearInterval(this.intervalID);
-		this.controller.textContent = 'Stopped';
+		this.#controller.setText('Stopped');
 		this.intervalID = null;
 	}
 
@@ -52,9 +57,10 @@ class WalkerController {
 
 	remove() {
 		this.stop();
-		this.controller.removeEventListener('click', this);
+		this.#controller.removeEventListener('click', this);
 		this.walkerHighlighter.remove();
-		this.controller.remove();
+		this.#controller.remove();
+		this.#controller = null;
 	}
 
 	getData() {
