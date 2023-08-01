@@ -55,10 +55,12 @@ class WalkerController {
 
 	#mouseenter = () => {
 		this.#controller.setInfo();
+		this.#walkerHighlighter.classList.add('highlight');
 	};
 
 	#mouseleave = () => {
 		this.#controller.clear();
+		this.#walkerHighlighter.classList.remove('highlight');
 	};
 
 	#click = () => {
