@@ -46,9 +46,17 @@ class PxButton {
 			this.#wndContent.addEventListener('animationend', this.clear);
 		}
 	}
+
+	setInfo(options = {}) {
+		this.#wndContent.classList.add('px-info');
+		if (options.autoclear) {
+			this.#wndContent.classList.add('px-clear');
+			this.#wndContent.addEventListener('animationend', this.clear);
+		}
+	}
 	
 	clear = () => {
-		this.#wndContent.classList.remove('px-error', 'px-clear');
+		this.#wndContent.classList.remove('px-error', 'px-info', 'px-clear');
 	}
 
 	remove() {
