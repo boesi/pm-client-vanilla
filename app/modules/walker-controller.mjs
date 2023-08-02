@@ -18,6 +18,8 @@ class WalkerController {
 		this.#controller.addEventListener('click', this.#click);
 		this.#controller.addEventListener('mouseenter', this.#mouseenter);
 		this.#controller.addEventListener('mouseleave', this.#mouseleave);
+		this.#walkerHighlighter.addEventListener('mouseleave', this.#mouseleave);
+		this.#walkerHighlighter.addEventListener('mouseenter', this.#mouseenter);
 		document.body.append(this.#walkerHighlighter);
 		// clientHeight and clientWidth are a bit time consuming, and because they never change, we just need to call them once
 		this.#walkerHighlighterHeight = this.#walkerHighlighter.clientHeight;
