@@ -4,38 +4,38 @@ import BoardSelector from '/modules/board/selector.mjs';
 
 class Settings {
 	#boardData = null;
-	wndSetting = document.createElement('div');
-	wndWalkerList = document.createElement('div');
+	#wndSetting = document.createElement('div');
+	#wndWalkerList = document.createElement('div');
 
 	constructor(boardData) {
 		this.#boardData = boardData;
-		this.wndSetting.classList.add('settings');
-		let wndSelector = new BoardSelector(boardData, this.createWalker.bind(this));
-		this.wndSetting.append(wndSelector.content);
-		this.wndSetting.append(this.wndWalkerList);
+		this.#wndSetting.classList.add('settings');
+		let wndSelector = new BoardSelector(boardData, this.#createWalker);
+		this.#wndSetting.append(wndSelector.content);
+		this.#wndSetting.append(this.#wndWalkerList);
 
-		document.addEventListener('new-walkers', this.receiveWalkers.bind(this));
+		document.addEventListener('new-walkers', this.#receiveWalkers);
 	}
 
 	get content() {
-		return this.wndSetting;
+		return this.#wndSetting;
 	}
 
 
-	receiveWalkers(event) {
+	#receiveWalkers = event => {
 		for (let walkerData of event.detail.walkers) {
-			this.createWalkerController(new Walker({data: walkerData}));
+			this.#createWalkerController(new Walker({data: walkerData}));
 		}
-	}
+	};
 
-	createWalker(event) {
-		this.createWalkerController(new Walker({x: event.pageX, y: event.pageY, size: this.#boardData.size}));
-	}
+	#createWalker = event => {
+		this.#createWalkerController(new Walker({x: event.pageX, y: event.pageY, size: this.#boardData.size}));
+	};
 
-	createWalkerController(walker) {
+	#createWalkerController(walker) {
 		let walkerController = new WalkerController(walker);
 		this.#boardData.addWalkerController(walkerController);
-		this.wndWalkerList.append(walkerController.content);
+		this.#wndWalkerList.append(walkerController.content);
 		walkerController.start();
 	}
 }
