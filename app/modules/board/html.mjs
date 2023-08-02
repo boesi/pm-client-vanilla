@@ -5,18 +5,16 @@ class BoardHTML {
 	board = document.createElement('div');
 	className = 'board-html';
 
-	constructor(onClick, init=true) {
-		this.initBoard(onClick, init);
+	constructor(init=true) {
+		this.initBoard(init);
 	}
 
-	initBoard(onClick, init) {
+	initBoard(init) {
 		if (init) {
 			this.board.style.width = '100vw';
 			this.board.style.height = '100vh';
 			this.board.classList.add(this.className);
 			document.body.prepend(this.board);
-
-			this.board.addEventListener('click', onClick);
 		}
 	}
 

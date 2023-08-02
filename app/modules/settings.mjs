@@ -10,17 +10,17 @@ class Settings {
 	constructor(boardData) {
 		this.#boardData = boardData;
 		this.#wndSetting.classList.add('settings');
-		let wndSelector = new BoardSelector(boardData, this.#createWalker);
+		let wndSelector = new BoardSelector(boardData);
 		this.#wndSetting.append(wndSelector.content);
 		this.#wndSetting.append(this.#wndWalkerList);
 
 		document.addEventListener('new-walkers', this.#receiveWalkers);
+		document.addEventListener('click', this.#createWalker);
 	}
 
 	get content() {
 		return this.#wndSetting;
 	}
-
 
 	#receiveWalkers = event => {
 		for (let walkerData of event.detail.walkers) {

@@ -5,7 +5,7 @@ class BoardCanvas {
 	board = null;
 	ctx = null;
 
-	constructor(onClick) {
+	constructor() {
 		this.board = document.createElement('canvas');
 		this.board.width = window.innerWidth;
 		// for some unknown reason, you get scrollbars if you use the full innerHeight
@@ -19,8 +19,6 @@ class BoardCanvas {
 		// with the parameter alpha: false we get a black background, but we want a white one
 		this.clearPixelData();
 		document.body.prepend(this.board);
-
-		this.board.addEventListener('click', onClick);
 	}
 
 	get size() {

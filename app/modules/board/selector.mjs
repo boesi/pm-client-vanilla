@@ -5,7 +5,6 @@ import BoardDummy from '/modules/board/dummy.mjs';
 
 class Selector {
 	#boardData = null;
-	#onBoardClick = null;
 	#wndSelect = document.createRange().createContextualFragment(`
 		<label id="board-type">
 			Board:
@@ -18,9 +17,8 @@ class Selector {
 		</label>
 	`);
 
-	constructor(boardData, onBoardClick) {
+	constructor(boardData) {
 		this.#boardData = boardData;
-		this.#onBoardClick = onBoardClick;
 		this.#wndSelect.querySelector('#board-type select').addEventListener('input', this.select.bind(this));
 		this.#boardData.setBoard(new BoardDummy());
 	}
@@ -32,13 +30,13 @@ class Selector {
 	select(event) {
 		switch (event.srcElement.value) {
 			case 'canvas':
-				this.#boardData.setBoard(new BoardCanvas(this.#onBoardClick));
+				this.#boardData.setBoard(new BoardCanvas());
 				break;
 			case 'html':
-				this.#boardData.setBoard(new BoardHTML(this.#onBoardClick));
+				this.#boardData.setBoard(new BoardHTML());
 				break;
 			case 'svg':
-				this.#boardData.setBoard(new BoardSVG(this.#onBoardClick));
+				this.#boardData.setBoard(new BoardSVG());
 				break;
 			case 'dummy':
 			default:
