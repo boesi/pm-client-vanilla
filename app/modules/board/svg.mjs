@@ -6,9 +6,9 @@ class BoardSVG extends BoardHTML {
 	board = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
 	className = 'board-svg';
 
-	constructor(onClick, init=true) {
-		super(onClick, false);
-		this.initBoard(onClick, init);
+	constructor(init=true) {
+		super(false);
+		this.initBoard(init);
 	}
 
 	getPixelData() {
