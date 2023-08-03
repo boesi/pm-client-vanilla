@@ -65,9 +65,10 @@ class WalkerController {
 		this.#walkerHighlighter.classList.remove('highlight');
 	};
 
-	#click = () => {
+	#click = event => {
 		if (this.#intervalID) this.stop();
 		else this.start();
+		event.stopPropagation();
 	}
 
 	remove() {
