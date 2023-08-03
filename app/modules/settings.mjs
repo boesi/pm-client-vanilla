@@ -29,7 +29,9 @@ class Settings {
 	};
 
 	#createWalker = event => {
-		this.#createWalkerController(new Walker({x: event.pageX, y: event.pageY, size: this.#boardData.size}));
+		if (this.#boardData.supportPixelData()) {
+			this.#createWalkerController(new Walker({x: event.pageX, y: event.pageY, size: this.#boardData.size}));
+		}
 	};
 
 	#createWalkerController(walker) {
