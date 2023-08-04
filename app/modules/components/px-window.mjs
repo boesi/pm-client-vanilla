@@ -113,6 +113,7 @@ class PxWindow {
 		this.wndTitle.addEventListener('mouseDown', this.startMove);
 		this.btnMinimize?.addEventListener('click', this.minimize);
 		this.btnClose?.addEventListener('click', this.close);
+		event.stopPropagation();
 	}
 
 	openDone(event) {
