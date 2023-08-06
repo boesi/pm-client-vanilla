@@ -1,4 +1,5 @@
 import PxButton from '/modules/components/px-button.mjs';
+import { rerouteEvent } from '/modules/utils/helpers.mjs';
 
 class WalkerController {
 	#walker = null;
@@ -24,6 +25,7 @@ class WalkerController {
 		// clientHeight and clientWidth are a bit time consuming, and because they never change, we just need to call them once
 		this.#walkerHighlighterHeight = this.#walkerHighlighter.clientHeight;
 		this.#walkerHighlighterWidth = this.#walkerHighlighter.clientWidth;
+		rerouteEvent('click', 'create-walker', this.#walkerHighlighter);
 	}
 
 	get content() {
