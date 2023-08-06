@@ -56,7 +56,6 @@ class PxTabs {
 			if (elContent.id === id) elContent.classList.add('active');
 			else elContent.classList.remove('active');
 		}
-		event.stopPropagation();
 	}
 }
 
