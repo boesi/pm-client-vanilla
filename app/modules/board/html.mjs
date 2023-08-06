@@ -1,4 +1,5 @@
 import ColorConversion from '/modules/utils/color-conversion.mjs';
+import { rerouteEvent } from '/modules/utils/helpers.mjs';
 import config from '/config.js';
 
 class BoardHTML {
@@ -15,6 +16,7 @@ class BoardHTML {
 			this.board.style.height = '100vh';
 			this.board.classList.add(this.className);
 			document.body.prepend(this.board);
+			rerouteEvent('click', 'create-walker', this.board);
 		}
 	}
 
