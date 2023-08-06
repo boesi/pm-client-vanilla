@@ -1,4 +1,5 @@
 import ColorConversion from '/modules/utils/color-conversion.mjs';
+import { rerouteEvent } from '/modules/utils/helpers.mjs';
 import config from '/config.js';
 
 class BoardCanvas {
@@ -19,6 +20,7 @@ class BoardCanvas {
 		// with the parameter alpha: false we get a black background, but we want a white one
 		this.clearPixelData();
 		document.body.prepend(this.board);
+		rerouteEvent('click', 'create-walker', this.board);
 	}
 
 	get size() {

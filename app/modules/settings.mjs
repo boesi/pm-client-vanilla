@@ -15,7 +15,7 @@ class Settings {
 		this.#wndSetting.append(this.#wndWalkerList);
 
 		document.addEventListener('new-walkers', this.#receiveWalkers);
-		document.addEventListener('click', this.#createWalker);
+		document.addEventListener('create-walker', this.#createWalker);
 	}
 
 	get content() {
@@ -30,6 +30,8 @@ class Settings {
 
 	#createWalker = event => {
 		if (this.#boardData.supportPixelData()) {
+			// Do we have a wrapped PointerEvent?
+			if (event.detail instanceof PointerEvent) event = event.detail;
 			this.#createWalkerController(new Walker({x: event.pageX, y: event.pageY, size: this.#boardData.size}));
 		}
 	};
