@@ -22,7 +22,6 @@ class PxWindow {
 		this.bindEvents();
 
 		this.wndTitle.addEventListener('mousedown', this.startMove);
-		this.wndTitle.addEventListener('click', this.#clickTitle);
 		this.btnMinimize?.addEventListener('click', this.minimize);
 		this.btnClose?.addEventListener('click', this.close);
 	}
@@ -142,13 +141,6 @@ class PxWindow {
 		} else {
 			window.removeEventListener('mousemove', this.move);
 		}
-	}
-
-	/**
-	 * this handler is just to stop the event, otherwise we would create a walker when moving the window
-	 */
-	#clickTitle = event => {
-		event.stopPropagation();
 	}
 }
 
