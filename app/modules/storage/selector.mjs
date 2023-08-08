@@ -9,6 +9,7 @@ class Selector {
 				<option value="dummy" selected="selected">---</option>
 				<option value="indexed-db">Indexed DB</option>
 				<option value="local">LocalStorage</option>
+				<option value="file">File</option>
 			</select>
 		</label>
 	`);
@@ -34,6 +35,9 @@ class Selector {
 				break;
 			case 'indexed-db':
 				this.#provider = new ProviderIndexedDb();
+				break;
+			case 'file':
+				this.#provider = new ProviderFile();
 				break;
 			case 'dummy':
 			default:
