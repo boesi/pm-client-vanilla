@@ -1,4 +1,5 @@
 import ProviderLocal from './provider-local.mjs';
+import ProviderFile from './provider-file.mjs';
 import ProviderIndexedDb from './provider-indexed-db.mjs';
 
 class Selector {
