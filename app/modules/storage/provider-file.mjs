@@ -11,13 +11,16 @@ class ProviderFile {
 
 	async save(data) {
 		const handle = await window.showSaveFilePicker();
-		console.log('===> selector.ProviderFile.save', {handle});
 		const stream = await handle.createWritable();
 		await stream.write(JSON.stringify(data));
 		await stream.close();
 	}
 
-	load(name) {
+	async load(name) {
+		const [handle] = await window.showOpenFilePicker();
+		const file = await handle.getFile();
+		const text = await file.text();
+		return JSON.parse(text);
 	}
 
 	remove(name) {
