@@ -9,7 +9,12 @@ class ProviderFile {
 		return window.showOpenFilePicker === 'function';
 	}
 
-	save(data) {
+	async save(data) {
+		const handle = await window.showSaveFilePicker();
+		console.log('===> selector.ProviderFile.save', {handle});
+		const stream = await handle.createWritable();
+		await stream.write(JSON.stringify(data));
+		await stream.close();
 	}
 
 	load(name) {
