@@ -1,5 +1,6 @@
 import ProviderLocal from './provider-local.mjs';
 import ProviderFile from './provider-file.mjs';
+import ProviderOpfs from './provider-opfs.mjs';
 import ProviderIndexedDb from './provider-indexed-db.mjs';
 
 class Selector {
@@ -11,6 +12,7 @@ class Selector {
 				<option value="indexed-db">Indexed DB</option>
 				<option value="local">LocalStorage</option>
 				<option value="file">File</option>
+				<option value="opfs">OPFS</option>
 			</select>
 		</label>
 	`);
@@ -39,6 +41,9 @@ class Selector {
 				break;
 			case 'file':
 				this.#provider = new ProviderFile();
+				break;
+			case 'opfs':
+				this.#provider = new ProviderOpfs();
 				break;
 			case 'dummy':
 			default:
