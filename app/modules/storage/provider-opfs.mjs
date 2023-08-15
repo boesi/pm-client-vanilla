@@ -23,6 +23,10 @@ class ProviderOpfs {
 
 	async load(name) {
 		const handle = await navigator.storage.getDirectory();
+		const filehandle = await handle.getFileHandle(name);
+		const file = await filehandle.getFile();
+		const text = await file.text();
+		return JSON.parse(text);
 	}
 
 	remove(name) {
