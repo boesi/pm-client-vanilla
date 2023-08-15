@@ -44,6 +44,22 @@ class StorageSettings {
 		}
 	}
 
+	#remove = async () => {
+		if (! this.#selector.provider) {
+			this.#message.setError('Please select a storage provider');
+			return;
+		}
+		this.#message.clear();
+		try {
+			await this.#selector.provider.remove('Pixel Mover Data');
+			this.#message.setInfo('Pixel Mover Data is removed');
+		} catch(error) {
+			this.#message.setError('Failed to remove PixelData', {error});
+			this.#btnRemove.setError({autoclear: true});
+			console.error('===> storage/settings.remove', {error});
+		}
+	}
+
 	#wndSetting = document.createRange().createContextualFragment(`
 		<div class="settings setting-storage">
 		</div>
@@ -53,12 +69,14 @@ class StorageSettings {
 	#message = new PxMessage();
 	#btnSave = new PxButton('Save', this.#save);
 	#btnLoad = new PxButton('Load', this.#load);
+	#btnRemove = new PxButton('Remove', this.#remove);
 	
 	constructor(boardData) {
 		this.#boardData = boardData;
 		this.#wndSetting.append(this.#selector.content);
 		this.#wndSetting.append(this.#btnSave.content);
 		this.#wndSetting.append(this.#btnLoad.content);
+		this.#wndSetting.append(this.#btnRemove.content);
 		this.#wndSetting.append(this.#message.content);
 	}
 
