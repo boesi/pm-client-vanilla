@@ -29,7 +29,10 @@ class ProviderOpfs {
 		return JSON.parse(text);
 	}
 
-	remove(name) {
+	async remove(name) {
+		const handle = await navigator.storage.getDirectory();
+		const filehandle = await handle.getFileHandle(name);
+		await filehandle.remove();
 	}
 }
 
