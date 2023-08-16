@@ -24,6 +24,7 @@ class ProviderFile {
 	}
 
 	remove(name) {
+		throw new Error('The storage provider File does not support removing items. Just remove the files yourself.');
 	}
 }
 
