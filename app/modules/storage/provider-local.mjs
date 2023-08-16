@@ -27,13 +27,15 @@ class ProviderLocal {
 		});
 	}
 
-	static remove(name) {
+	remove(name) {
 		return new Promise((resolve, reject) => {
 			try {
 				if (window.localStorage.getItem(name)) {
 					window.localStorage.removeItem(name);
+					resolve();
+				} else {
+					reject(new Error(`Local Storage has no item with key '${name}'`));
 				}
-				resolve();
 			} catch(error) {
 				reject(error);
 			}
