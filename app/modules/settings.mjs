@@ -23,8 +23,10 @@ class Settings {
 	}
 
 	#receiveWalkers = event => {
-		for (let walkerData of event.detail.walkers) {
-			this.#createWalkerController(new Walker({data: walkerData}));
+		if (event.detail.walkers) {
+			for (let walkerData of event.detail.walkers) {
+				this.#createWalkerController(new Walker({data: walkerData}));
+			}
 		}
 	};
 
