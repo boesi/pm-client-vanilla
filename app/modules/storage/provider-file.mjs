@@ -54,15 +54,20 @@ class ProviderFile {
 	}
 
 	async load(name) {
-		const [handle] = await window.showOpenFilePicker();
-		const file = await handle.getFile();
-		if (file.type === 'image/png') {
-			let data = new StorageData();
-			data.pixels = await this.loadImage(file);
-			return data;
-		} else {
-			return JSON.parse(await file.text());
+		try {
+			const [handle] = await window.showOpenFilePicker();
+			const file = await handle.getFile();
+			if (file.type === 'image/png') {
+				let data = new StorageData();
+				data.pixels = await this.loadImage(file);
+				return data;
+			} else {
+				return JSON.parse(await file.text());
+			}
+		} catch (error) {
+			if (error.name !== 'AbortError') throw error;
 		}
+		return null;
 	}
 
 	remove(name) {
