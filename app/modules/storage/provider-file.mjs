@@ -45,17 +45,20 @@ class ProviderFile {
 		return y * (width * 4) + x * 4;
 	}
 
+	async loadImage(file) {
+		let image = await window.createImageBitmap(file.slice(0, file.size, file.type));
+		let canvas = new  OffscreenCanvas(image.width, image.height);
+		let context = canvas.getContext('2d');
+		context.drawImage(image, 0, 0);
+		return this.getPixelData(context, {width: image.width, height: image.height});
+	}
+
 	async load(name) {
 		const [handle] = await window.showOpenFilePicker();
 		const file = await handle.getFile();
 		if (file.type === 'image/png') {
-			let image = await window.createImageBitmap(file.slice(0, file.size, file.type));
-			let canvas = new  OffscreenCanvas(image.width, image.height);
-			let context = canvas.getContext('2d');
-			context.drawImage(image, 0, 0);
 			let data = new StorageData();
-			data.pixels = this.getPixelData(context, {width: image.width, height: image.height});
-			console.log('===> storage.provider-file.load', {handle, file, image, canvas, context});
+			data.pixels = await this.loadImage(file);
 			return data;
 		} else {
 			return JSON.parse(await text);
