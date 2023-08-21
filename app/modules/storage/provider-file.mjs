@@ -57,7 +57,7 @@ class ProviderFile {
 		try {
 			const [handle] = await window.showOpenFilePicker();
 			const file = await handle.getFile();
-			if (file.type === 'image/png') {
+			if (file.type.startsWith('image')) {
 				let data = new StorageData();
 				data.pixels = await this.loadImage(file);
 				return data;
