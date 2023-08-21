@@ -32,11 +32,13 @@ class StorageSettings {
 		this.#message.clear();
 		try {
 			let data = await this.#selector.provider.load('Pixel Mover Data');
-			this.#boardData.setPixelData(data.pixels);
-			this.#boardData.clearWalkerControllers();
-			const event = new CustomEvent('new-walkers', {detail: {walkers: data.walkers}});
-			document.dispatchEvent(event);
-			this.#message.setInfo('PixelData loaded');
+			if (data !== null) {
+				this.#boardData.setPixelData(data.pixels);
+				this.#boardData.clearWalkerControllers();
+				const event = new CustomEvent('new-walkers', {detail: {walkers: data.walkers}});
+				document.dispatchEvent(event);
+				this.#message.setInfo('PixelData loaded');
+			}
 		} catch(error) {
 			this.#message.setError('Failed to load PixelData', {error});
 			this.#btnLoad.setError({autoclear: true});
