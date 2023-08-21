@@ -61,7 +61,7 @@ class ProviderFile {
 			data.pixels = await this.loadImage(file);
 			return data;
 		} else {
-			return JSON.parse(await text);
+			return JSON.parse(await file.text());
 		}
 	}
 
