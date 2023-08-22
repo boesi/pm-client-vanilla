@@ -14,6 +14,7 @@ class ProviderFile {
 	}
 
 	async save(data) {
+		let success = false;
 		try {
 			const handle = await window.showSaveFilePicker();
 			const stream = await handle.createWritable();
@@ -29,9 +30,11 @@ class ProviderFile {
 			}
 			await stream.write(dataToWrite);
 			await stream.close();
+			success = true;
 		} catch (error) {
 			if (error.name !== 'AbortError') throw error;
 		}
+		return success;
 	}
 
 	getPixelData(context, size) {
