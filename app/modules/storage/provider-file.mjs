@@ -14,20 +14,24 @@ class ProviderFile {
 	}
 
 	async save(data) {
-		const handle = await window.showSaveFilePicker();
-		const stream = await handle.createWritable();
-		const ext = handle.name.substring(handle.name.lastIndexOf('.'));
-		console.log('===> storage/provider-file.save', {ext, handle, stream});
-		let dataToWrite = null;
-		switch (ext) {
-			case '.pmj':
-				dataToWrite = JSON.stringify(data);
-				break;
-			default:
-				throw new Error(`The file type ${ext} is unsupported`);
+		try {
+			const handle = await window.showSaveFilePicker();
+			const stream = await handle.createWritable();
+			const ext = handle.name.substring(handle.name.lastIndexOf('.'));
+			console.log('===> storage/provider-file.save', {ext, handle, stream});
+			let dataToWrite = null;
+			switch (ext) {
+				case '.pmj':
+					dataToWrite = JSON.stringify(data);
+					break;
+				default:
+					throw new Error(`The file type ${ext} is unsupported`);
+			}
+			await stream.write(dataToWrite);
+			await stream.close();
+		} catch (error) {
+			if (error.name !== 'AbortError') throw error;
 		}
-		await stream.write(dataToWrite);
-		await stream.close();
 	}
 
 	getPixelData(context, size) {
