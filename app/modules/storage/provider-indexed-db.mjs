@@ -42,7 +42,8 @@ class ProviderIndexedDb {
 
 	async save(data) {
 		let store = await this.#transactionStore('readwrite');
-		return this.#toPromise(store.put(data));
+		await this.#toPromise(store.put(data));
+		return true;
 	}
 
 	async load(name) {
