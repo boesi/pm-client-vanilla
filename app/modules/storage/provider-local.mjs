@@ -4,7 +4,7 @@ class ProviderLocal {
 		return new Promise((resolve, reject) => {
 			try {
 				window.localStorage.setItem(data.name, JSON.stringify(data));
-				resolve();
+				resolve(true);
 			} catch(error) {
 				reject(error);
 			}
