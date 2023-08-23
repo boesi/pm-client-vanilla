@@ -16,9 +16,11 @@ class ProviderOpfs {
 			const file = await handle.getFileHandle(data.name, {create: true});
 			stream = await file.createWritable();
 			stream.write(JSON.stringify(data));
+			return true;
 		} finally {
 			if (stream !== null) stream.close();
 		}
+		return false;
 	}
 
 	async load(name) {
