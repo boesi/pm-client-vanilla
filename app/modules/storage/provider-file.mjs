@@ -19,11 +19,13 @@ class ProviderFile {
 			const handle = await window.showSaveFilePicker();
 			const stream = await handle.createWritable();
 			const ext = handle.name.substring(handle.name.lastIndexOf('.'));
-			console.log('===> storage/provider-file.save', {ext, handle, stream});
 			let dataToWrite = null;
 			switch (ext) {
 				case '.pmj':
 					dataToWrite = JSON.stringify(data);
+					break;
+				case '.png':
+					dataToWrite = await this.saveImage(data, ext);
 					break;
 				default:
 					throw new Error(`The file type ${ext} is unsupported`);
@@ -35,6 +37,27 @@ class ProviderFile {
 			if (error.name !== 'AbortError') throw error;
 		}
 		return success;
+	}
+
+	async saveImage(data, ext) {
+		let canvas = new OffscreenCanvas(data.pixels.length, data.pixels[0].length);
+		let context = canvas.getContext('2d');
+		let type = `image/${ext};`;
+		this.setPixelData(context, data.pixels);
+		let blob = await canvas.convertToBlob({type});
+		return blob;
+	}
+
+	setPixelData(context, data) {
+		for (let x=0; x<data.length; x++) {
+			for (let y=0; y<data[x].length; y++) {
+				let color = data[x][y];
+				if (color) {
+					context.fillStyle = color;
+					context.fillRect(x, y, 1, 1);
+				}
+			}
+		}
 	}
 
 	getPixelData(context, size) {
