@@ -13,10 +13,22 @@ class ProviderFile {
 		return window.showOpenFilePicker === 'function';
 	}
 
+	#supportedFileTypes = [{
+		description: "PNG",
+		accept: {
+			"image/png": [".png"],
+		}
+	}, {
+		description: "Pixel Mover Json",
+		accept: {
+			"application/json": [".pmj"],
+		}
+	}]
+
 	async save(data) {
 		let success = false;
 		try {
-			const handle = await window.showSaveFilePicker();
+			const handle = await window.showSaveFilePicker({types: this.#supportedFileTypes});
 			const stream = await handle.createWritable();
 			const ext = handle.name.substring(handle.name.lastIndexOf('.'));
 			let dataToWrite = null;
@@ -95,7 +107,7 @@ class ProviderFile {
 
 	async load(name) {
 		try {
-			const [handle] = await window.showOpenFilePicker();
+			const [handle] = await window.showOpenFilePicker({types: this.#supportedFileTypes});
 			const file = await handle.getFile();
 			if (file.type.startsWith('image')) {
 				let data = new StorageData();
