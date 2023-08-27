@@ -10,10 +10,19 @@ class CanvasHelper {
 	constructor(width, height, options = {offscreen: true}) {
 		this.#width = width;
 		this.#height = height;
-		this.#canvas = options.offscreen ? 
-			new OffscreenCanvas(width, height) :
-			document.createElement('canvas');
-		this.#context = this.#canvas.getContext('2d');
+		if (options.offscreen) {
+			this.#canvas = new OffscreenCanvas(width, height);
+			this.#context = this.#canvas.getContext('2d');
+		} else {
+			this.#canvas = document.createElement('canvas');
+			this.#canvas.width = width;
+			// for some unknown reason, you get scrollbars if you use the full innerHeight
+			this.#canvas.height = height - 4;
+			// https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently
+			// on my computer this setting has no effect on the performance
+			// only one less warning in the chrome developer console
+			this.#context = this.#canvas.getContext('2d', {willReadFrequently: true, alpha: false});
+		}
 	}
 
 	get content() {
@@ -24,7 +33,13 @@ class CanvasHelper {
 		return this.#context;
 	}
 
-	setPixelData(data) {
+	clearPixelData() {
+		this.#context.fillStyle = 'white';
+		this.#context.fillRect(0, 0, this.#width, this.#height);
+	}
+
+	setPixelData(data, clear=false) {
+		if (clear) this.clearPixelData();
 		for (let x=0; x<data.length; x++) {
 			for (let y=0; y<data[x].length; y++) {
 				let color = data[x][y];
@@ -41,7 +56,6 @@ class CanvasHelper {
 				height = this.#height,
 				data = Array(width);
 		for (let x=0; x<data.length; x++) data[x] = Array(height);
-		console.log('===> canvas-helpoer.getPixelData', {width, height, data});
 
 		let imgData = this.#context.getImageData(0, 0, width, height).data;
 		for (let x=0; x<data.length; x++) {
@@ -58,6 +72,21 @@ class CanvasHelper {
 			}
 		}
 		return data;
+	}
+
+	getPixelColor(x, y) {
+		let imgData = this.#context.getImageData(0, 0, this.#width, this.#height).data;
+		let coord = this.#getRedIndexForCoord(x, y, this.#width);
+		let [red, green, blue, alpha] = imgData.slice(coord, coord+4);
+		if (alpha !== 0) return ColorConversion.numberToString(config.colorType, red, green, blue);
+		return;
+	}
+
+	setPixelColor(x, y, color) {
+		if (this.#context) {
+			this.#context.fillStyle = color;
+			this.#context.fillRect(x, y, 1, 1);
+		}
 	}
 
 	#getRedIndexForCoord(x, y, width) {
