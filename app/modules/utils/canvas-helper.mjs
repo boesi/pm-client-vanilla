@@ -7,10 +7,10 @@ class CanvasHelper {
 	#width = 0;
 	#height = 0;
 	
-	constructor(width, height, options = {offscreen: true}) {
+	constructor(width, height,  {offscreen = true} = {}) {
 		this.#width = width;
 		this.#height = height;
-		if (options.offscreen) {
+		if (offscreen) {
 			this.#canvas = new OffscreenCanvas(width, height);
 			this.#context = this.#canvas.getContext('2d');
 		} else {
