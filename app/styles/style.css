@@ -44,7 +44,7 @@ body {
 	display: flex;
 	flex-direction: row;
 }
-.settings label > select {
+.settings label > :is(select, input) {
 	margin-left: 0.25rem;
 	flex: 1 1 auto;
 }

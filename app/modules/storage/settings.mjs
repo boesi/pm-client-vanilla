@@ -1,4 +1,5 @@
 import Selector from './selector.mjs';
+import SelectorName from './selector-name.mjs';
 import PxMessage from '/modules/components/px-message.mjs';
 import PxButton from '/modules/components/px-button.mjs';
 import StorageData from './data.mjs';
@@ -67,6 +68,7 @@ class StorageSettings {
 		</div>
 	`).firstElementChild;
 	#selector = new Selector();
+	#selectorName = new SelectorName();
 	#boardData = null;
 	#message = new PxMessage();
 	#btnSave = new PxButton('Save', this.#save);
@@ -76,6 +78,7 @@ class StorageSettings {
 	constructor(boardData) {
 		this.#boardData = boardData;
 		this.#wndSetting.append(this.#selector.content);
+		this.#wndSetting.append(this.#selectorName.content);
 		this.#wndSetting.append(this.#btnSave.content);
 		this.#wndSetting.append(this.#btnLoad.content);
 		this.#wndSetting.append(this.#btnRemove.content);
