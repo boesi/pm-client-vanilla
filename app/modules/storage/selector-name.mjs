@@ -5,16 +5,21 @@ class StorageSelectorName {
 			<input id="input-storage-selector-name"/>
 		</label>
 	`);
+	#input = null;
 
 	constructor() {
-		let input = this.#content.querySelector('#input-storage-selector-name');
+		this.#input = this.#content.querySelector('#input-storage-selector-name');
 	}
 
 	get content() {
 		return this.#content;
 	}
 
-	setNames(names) {
+	get name() {
+		return this.#input.value;
+	}
+
+	set names(names) {
 		console.log('===> storage/selector-name.setNames', {names});
 	}
 }

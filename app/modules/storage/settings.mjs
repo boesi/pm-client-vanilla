@@ -10,9 +10,14 @@ class StorageSettings {
 			this.#message.setError('Please select a storage provider');
 			return;
 		}
+		let name = this.#selectorName.name;
+		if (! name) {
+			this.#message.setError('Please input or select a name');
+			return;
+		}
 		this.#message.clear();
 		try {
-			let success = await this.#selector.provider.save(this.#createStorageData());
+			let success = await this.#selector.provider.save(this.#createStorageData(name));
 			if (success) this.#message.setInfo('PixelData saved');
 		} catch(error) {
 			this.#message.setError('Failed to save PixelData', {error});
@@ -89,8 +94,9 @@ class StorageSettings {
 		return this.#wndSetting;
 	}
 
-	#createStorageData() {
+	#createStorageData(name) {
 		let data = new StorageData();
+		data.name = name;
 		data.pixels = this.#boardData.getPixelData();
 		data.walkers = this.#boardData.getWalkerData();
 		return data;
