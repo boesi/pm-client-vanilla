@@ -5,24 +5,29 @@ import PxButton from '/modules/components/px-button.mjs';
 import StorageData from './data.mjs';
 
 class StorageSettings {
-	#save = async () => {
+	#check() {
 		if (! this.#selector.provider) {
 			this.#message.setError('Please select a storage provider');
-			return;
+			return false;
 		}
-		let name = this.#selectorName.name;
-		if (! name) {
+		if (! this.#selectorName.name) {
 			this.#message.setError('Please input or select a name');
-			return;
+			return false;
 		}
-		this.#message.clear();
-		try {
-			let success = await this.#selector.provider.save(this.#createStorageData(name));
-			if (success) this.#message.setInfo('PixelData saved');
-		} catch(error) {
-			this.#message.setError('Failed to save PixelData', {error});
-			this.#btnSave.setError({autoclear: true});
-			console.error('===> storage/settings.save', {error});
+		return true;
+	}
+
+	#save = async () => {
+		if (this.#check()) {
+			this.#message.clear();
+			try {
+				let success = await this.#selector.provider.save(this.#createStorageData(this.#selectorName.name));
+				if (success) this.#message.setInfo('PixelData saved');
+			} catch(error) {
+				this.#message.setError('Failed to save PixelData', {error});
+				this.#btnSave.setError({autoclear: true});
+				console.error('===> storage/settings.save', {error});
+			}
 		}
 	}
 
