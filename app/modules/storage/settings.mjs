@@ -5,21 +5,25 @@ import PxButton from '/modules/components/px-button.mjs';
 import StorageData from './data.mjs';
 
 class StorageSettings {
-	#check() {
-		if (! this.#selector.provider) {
+	#check({provider = true, name = true, pixelData = true} = {}) {
+		if (provider && ! this.#selector.provider) {
 			this.#message.setError('Please select a storage provider');
 			return false;
 		}
-		if (! this.#selectorName.name) {
+		if (name && ! this.#selectorName.name) {
 			this.#message.setError('Please input or select a name');
 			return false;
 		}
+		if (pixelData && ! this.#boardData.supportPixelData()) {
+			this.#message.setError('Please select a board supporting pixel data');
+			return false;
+		}
+		this.#message.clear();
 		return true;
 	}
 
 	#save = async () => {
 		if (this.#check()) {
-			this.#message.clear();
 			try {
 				let success = await this.#selector.provider.save(this.#createStorageData(this.#selectorName.name));
 				if (success) this.#message.setInfo('PixelData saved');
@@ -32,44 +36,34 @@ class StorageSettings {
 	}
 
 	#load = async () => {
-		if (! this.#selector.provider) {
-			this.#message.setError('Please select a storage provider');
-			return;
-		}
-		if (! this.#boardData.supportPixelData()) {
-			this.#message.setError('Please select a board supporting pixel data');
-			return;
-		}
-		this.#message.clear();
-		try {
-			let data = await this.#selector.provider.load('Pixel Mover Data');
-			if (data !== null) {
-				this.#boardData.setPixelData(data.pixels);
-				this.#boardData.clearWalkerControllers();
-				const event = new CustomEvent('new-walkers', {detail: {walkers: data.walkers}});
-				document.dispatchEvent(event);
-				this.#message.setInfo('PixelData loaded');
+		if (this.#check()) {
+			try {
+				let data = await this.#selector.provider.load('Pixel Mover Data');
+				if (data !== null) {
+					this.#boardData.setPixelData(data.pixels);
+					this.#boardData.clearWalkerControllers();
+					const event = new CustomEvent('new-walkers', {detail: {walkers: data.walkers}});
+					document.dispatchEvent(event);
+					this.#message.setInfo('PixelData loaded');
+				}
+			} catch(error) {
+				this.#message.setError('Failed to load PixelData', {error});
+				this.#btnLoad.setError({autoclear: true});
+				console.error('===> storage/settings.load', {error});
 			}
-		} catch(error) {
-			this.#message.setError('Failed to load PixelData', {error});
-			this.#btnLoad.setError({autoclear: true});
-			console.error('===> storage/settings.load', {error});
 		}
 	}
 
 	#remove = async () => {
-		if (! this.#selector.provider) {
-			this.#message.setError('Please select a storage provider');
-			return;
-		}
-		this.#message.clear();
-		try {
-			await this.#selector.provider.remove('Pixel Mover Data');
-			this.#message.setInfo('Pixel Mover Data is removed');
-		} catch(error) {
-			this.#message.setError('Failed to remove PixelData', {error});
-			this.#btnRemove.setError({autoclear: true});
-			console.error('===> storage/settings.remove', {error});
+		if (this.#check({pixelData: false})) {
+			try {
+				await this.#selector.provider.remove('Pixel Mover Data');
+				this.#message.setInfo('Pixel Mover Data is removed');
+			} catch(error) {
+				this.#message.setError('Failed to remove PixelData', {error});
+				this.#btnRemove.setError({autoclear: true});
+				console.error('===> storage/settings.remove', {error});
+			}
 		}
 	}
 
