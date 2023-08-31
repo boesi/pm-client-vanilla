@@ -38,7 +38,7 @@ class StorageSettings {
 	#load = async () => {
 		if (this.#check()) {
 			try {
-				let data = await this.#selector.provider.load('Pixel Mover Data');
+				let data = await this.#selector.provider.load(this.#selectorName.name);
 				if (data !== null) {
 					this.#boardData.setPixelData(data.pixels);
 					this.#boardData.clearWalkerControllers();
