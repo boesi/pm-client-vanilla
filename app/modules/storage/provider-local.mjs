@@ -11,7 +11,7 @@ class ProviderLocal {
 		});
 	}
 
-	getItems() {
+	get items() {
 		let len = window.localStorage.length;
 		let keys = new Array(len);
 		for (let ind = 0; ind < len; ind++) {
