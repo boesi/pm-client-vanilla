@@ -18,6 +18,7 @@ class Selector {
 	`);
 
 	#provider = null;
+	onSelect = null;
 
 	constructor() {
 		this.#wndSelect.querySelector('#provider-type select').addEventListener('input', this.select.bind(this));
@@ -50,6 +51,7 @@ class Selector {
 				this.#provider = null;
 				break;
 		}
+		this.onSelect?.(this.#provider?.getItems());
 	}
 }
 
