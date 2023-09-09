@@ -4,9 +4,7 @@ class StorageSelectorName {
 			Name: 
 			<input list="storage-selector-names" id="input-storage-selector-name"/>
 		</label>
-		<datalist id="storage-selector-names">
-			<option value="test"/>
-		</datalist>
+		<datalist id="storage-selector-names"/>
 	`);
 	#input = null;
 	#lstNames = null;
@@ -25,7 +23,16 @@ class StorageSelectorName {
 	}
 
 	set names(names) {
-		console.log('===> storage/selector-name.setNames', {names});
+		let options = [];
+		if (names) {
+			names.sort();
+			for (let name of names) {
+				let option = document.createElement("option");
+				option.setAttribute("value", name);
+				options.push(option);
+			}
+		}
+		this.#lstNames.replaceChildren(...options);
 	}
 }
 
