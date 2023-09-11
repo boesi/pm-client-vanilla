@@ -12,12 +12,14 @@ class ProviderLocal {
 	}
 
 	getItems() {
-		let len = window.localStorage.length;
-		let keys = new Array(len);
-		for (let ind = 0; ind < len; ind++) {
-			keys[ind] = window.localStorage.key(ind);
-		}
-		return keys;
+		return new Promise((resolve, reject) => {
+			let len = window.localStorage.length;
+			let keys = new Array(len);
+			for (let ind = 0; ind < len; ind++) {
+				keys[ind] = window.localStorage.key(ind);
+			}
+			resolve(keys);
+		});
 	}
 
 	load(name) {
