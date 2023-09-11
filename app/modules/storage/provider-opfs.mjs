@@ -9,6 +9,21 @@ class ProviderOpfs {
 		return navigator.storage.getDirectory === 'function';
 	}
 
+	async getItems() {
+		let items = [];
+		const handle = await navigator.storage.getDirectory();
+		console.log('===> storage.ProviderOpfs.items 1', {handle, entries: handle.entries(), values: handle.values(), keys: handle.keys()});
+		for await (const [key, value] of handle.entries()) {
+			console.log('===> storage.ProvdierOpfs.items 2', {key, value});
+			items.push(key);
+		}
+		return items;
+	}
+
+	get items() {
+		return this.getItems();
+	}
+
 	async save(data) {
 		let stream = null;
 		try {

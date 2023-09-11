@@ -87,7 +87,7 @@ class StorageSettings {
 		this.#wndSetting.append(this.#btnLoad.content);
 		this.#wndSetting.append(this.#btnRemove.content);
 		this.#wndSetting.append(this.#message.content);
-		this.#selector.onSelect = names => this.#selectorName.names = names;
+		this.#selector.onSelect = async provider => this.#selectorName.names = await provider?.items;
 	}
 
 	get content() {

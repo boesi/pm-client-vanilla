@@ -51,7 +51,7 @@ class Selector {
 				this.#provider = null;
 				break;
 		}
-		this.onSelect?.(this.#provider?.items);
+		this.onSelect?.(this.#provider);
 	}
 }
 
