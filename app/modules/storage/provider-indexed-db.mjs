@@ -40,6 +40,11 @@ class ProviderIndexedDb {
 		});
 	}
 
+	async getItems() {
+		let store = await this.#transactionStore('readonly');
+		return this.#toPromise(store.getAllKeys());
+	}
+
 	async save(data) {
 		let store = await this.#transactionStore('readwrite');
 		await this.#toPromise(store.put(data));
