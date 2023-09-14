@@ -9,10 +9,11 @@ class Selector {
 			Provider:
 			<select>
 				<option value="dummy" selected="selected">---</option>
+				<option value="file">File</option>
 				<option value="indexed-db">Indexed DB</option>
 				<option value="local">LocalStorage</option>
-				<option value="file">File</option>
 				<option value="opfs">OPFS</option>
+				<option value="session">SessionStorage</option>
 			</select>
 		</label>
 	`);
@@ -35,7 +36,10 @@ class Selector {
 	select(event) {
 		switch (event.srcElement.value) {
 			case 'local':
-				this.#provider = new ProviderLocal();
+				this.#provider = new ProviderLocal(window.localStorage);
+				break;
+			case 'session':
+				this.#provider = new ProviderLocal(window.sessionStorage);
 				break;
 			case 'indexed-db':
 				this.#provider = new ProviderIndexedDb();

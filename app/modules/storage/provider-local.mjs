@@ -3,7 +3,7 @@ class ProviderLocal {
 	#type = window.localStorage;
 
 	constructor(type) {
-		this.#type ??= type;
+		this.#type = type ?? this.#type;
 	}
 
 	save(data) {
