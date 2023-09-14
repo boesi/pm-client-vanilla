@@ -27,11 +27,11 @@ class StorageSettings {
 			try {
 				let success = await this.#selector.provider.save(this.#createStorageData(this.#selectorName.name));
 				if (success) {
-					this.#message.setInfo('PixelData saved');
+					this.#message.setInfo(`${this.#selectorName.name} saved`);
 					this.#selectorName.names = await this.#selector.provider.getItems?.();
 				}
 			} catch(error) {
-				this.#message.setError('Failed to save PixelData', {error});
+				this.#message.setError(`Failed to save ${this.#selectorName.name}`, {error});
 				this.#btnSave.setError({autoclear: true});
 				console.error('===> storage/settings.save', {error});
 			}
@@ -47,10 +47,10 @@ class StorageSettings {
 					this.#boardData.clearWalkerControllers();
 					const event = new CustomEvent('new-walkers', {detail: {walkers: data.walkers}});
 					document.dispatchEvent(event);
-					this.#message.setInfo('PixelData loaded');
+					this.#message.setInfo(`${this.#selectorName.name} loaded`);
 				}
 			} catch(error) {
-				this.#message.setError('Failed to load PixelData', {error});
+				this.#message.setError(`Failed to load ${this.#selectorName.name}`, {error});
 				this.#btnLoad.setError({autoclear: true});
 				console.error('===> storage/settings.load', {error});
 			}
@@ -61,10 +61,10 @@ class StorageSettings {
 		if (this.#check({pixelData: false})) {
 			try {
 				await this.#selector.provider.remove(this.#selectorName.name);
-				this.#message.setInfo('Pixel Mover Data is removed');
+				this.#message.setInfo(`${this.#selectorName.name} removed`);
 				this.#selectorName.names = await this.#selector.provider.getItems?.();
 			} catch(error) {
-				this.#message.setError('Failed to remove PixelData', {error});
+				this.#message.setError(`Failed to remove ${this.#selectorName.name}`, {error});
 				this.#btnRemove.setError({autoclear: true});
 				console.error('===> storage/settings.remove', {error});
 			}
