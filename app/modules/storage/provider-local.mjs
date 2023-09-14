@@ -1,9 +1,15 @@
 class ProviderLocal {
 
+	#type = window.localStorage;
+
+	constructor(type) {
+		this.#type ??= type;
+	}
+
 	save(data) {
 		return new Promise((resolve, reject) => {
 			try {
-				window.localStorage.setItem(data.name, JSON.stringify(data));
+				this.#type.setItem(data.name, JSON.stringify(data));
 				resolve(true);
 			} catch(error) {
 				reject(error);
@@ -13,10 +19,10 @@ class ProviderLocal {
 
 	getItems() {
 		return new Promise((resolve, reject) => {
-			let len = window.localStorage.length;
+			let len = this.#type.length;
 			let keys = new Array(len);
 			for (let ind = 0; ind < len; ind++) {
-				keys[ind] = window.localStorage.key(ind);
+				keys[ind] = this.#type.key(ind);
 			}
 			resolve(keys);
 		});
@@ -25,7 +31,7 @@ class ProviderLocal {
 	load(name) {
 		return new Promise((resolve, reject) => {
 			try {
-				let data = window.localStorage.getItem(name);
+				let data = this.#type.getItem(name);
 				if (data) {
 					data = JSON.parse(data);
 				} else {
@@ -41,8 +47,8 @@ class ProviderLocal {
 	remove(name) {
 		return new Promise((resolve, reject) => {
 			try {
-				if (window.localStorage.getItem(name)) {
-					window.localStorage.removeItem(name);
+				if (this.#type.getItem(name)) {
+					this.#type.removeItem(name);
 					resolve();
 				} else {
 					reject(new Error(`Local Storage has no item with key '${name}'`));
