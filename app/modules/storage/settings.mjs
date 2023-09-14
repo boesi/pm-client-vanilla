@@ -62,6 +62,7 @@ class StorageSettings {
 			try {
 				await this.#selector.provider.remove(this.#selectorName.name);
 				this.#message.setInfo('Pixel Mover Data is removed');
+				this.#selectorName.names = await this.#selector.provider.getItems?.();
 			} catch(error) {
 				this.#message.setError('Failed to remove PixelData', {error});
 				this.#btnRemove.setError({autoclear: true});
