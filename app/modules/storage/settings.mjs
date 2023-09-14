@@ -60,7 +60,7 @@ class StorageSettings {
 	#remove = async () => {
 		if (this.#check({pixelData: false})) {
 			try {
-				await this.#selector.provider.remove('Pixel Mover Data');
+				await this.#selector.provider.remove(this.#selectorName.name);
 				this.#message.setInfo('Pixel Mover Data is removed');
 			} catch(error) {
 				this.#message.setError('Failed to remove PixelData', {error});
