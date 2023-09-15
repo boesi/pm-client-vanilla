@@ -53,12 +53,16 @@ class ProviderIndexedDb {
 
 	async load(name) {
 		let store = await this.#transactionStore('readonly');
-		return this.#toPromise(store.get(name));
+		const item = await this.#toPromise(store.get(name));
+		if (item == undefined) throw new Error(`Item with name ${name} does not exist`);
+		return item;
 	}
 
 	async remove(name) {
 		let store = await this.#transactionStore('readwrite');
-		return this.#toPromise(store.delete(name));
+		const item = await this.#toPromise(store.delete(name));
+		if (item == undefined) throw new Error(`Item with name ${name} does not exist`);
+		return item;
 	}
 }
 
