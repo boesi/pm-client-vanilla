@@ -1,5 +1,5 @@
 export default {
-	version: '0.20',
+	version: '0.21',
 	name: 'Pixel Mover Plain',
 	colorType: '#'
 }
