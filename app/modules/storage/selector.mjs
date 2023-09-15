@@ -9,11 +9,15 @@ class Selector {
 			Provider:
 			<select>
 				<option value="dummy" selected="selected">---</option>
-				<option value="file">File</option>
-				<option value="indexed-db">Indexed DB</option>
-				<option value="local">LocalStorage</option>
-				<option value="opfs">OPFS</option>
-				<option value="session">SessionStorage</option>
+				<optgroup label="Local">
+					<option value="file">File</option>
+					<option value="indexed-db">Indexed DB</option>
+					<option value="local">LocalStorage</option>
+					<option value="opfs">OPFS</option>
+					<option value="session">SessionStorage</option>
+				</optgroup>
+				<optgroup label="Remote">
+				</optgroup>
 			</select>
 		</label>
 	`);
