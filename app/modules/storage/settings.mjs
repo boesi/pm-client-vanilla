@@ -42,7 +42,10 @@ class StorageSettings {
 		if (this.#check()) {
 			try {
 				let data = await this.#selector.provider.load(this.#selectorName.name);
-				if (data !== null) {
+				// Provider.load must throw an error if the requested item doesn't
+				// exist. So in theory we should alsways have a data object. But just
+				// in case we get null or undefined we check for it.
+				if (data != null) {
 					this.#boardData.setPixelData(data.pixels);
 					this.#boardData.clearWalkerControllers();
 					const event = new CustomEvent('new-walkers', {detail: {walkers: data.walkers}});
