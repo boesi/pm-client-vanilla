@@ -6,6 +6,9 @@ import StorageData from './data.mjs';
 
 class StorageSettings {
 	#check({provider = true, name = true, pixelData = true} = {}) {
+		// TODO: implement that ProviderFile doesn't support the argument name -
+		// the user has to choose the file name in the file dialog and there is no
+		// way to preselect it
 		if (provider && ! this.#selector.provider) {
 			this.#message.setError('Please select a storage provider');
 			return false;
