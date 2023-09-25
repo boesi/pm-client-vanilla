@@ -1,0 +1,11 @@
+{
+	"name": "Node-Server for Pixel-Mover",
+	"version": "0.1",
+	"scripts": {
+		"dev": "node --inspect app/server.js"
+	},
+	"dependencies": {
+	},
+	"devDependencies": {
+	}
+}
