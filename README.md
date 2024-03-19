@@ -1,4 +1,4 @@
-# Pixel Mover
+# Vanilla for Pixel Mover
 Just a little project to explore what you can do in web development without any framework.
 
 The goal is a little interactive page. No Framework, library, bundler, ... allowed.
