@@ -1,4 +1,4 @@
-# Pixel Mover
+# Vanilla client for Pixel Mover
 Just a little project to explore what you can do in web development without any framework.
 
 The goal is a little interactive page. No Framework, library, bundler, ... allowed.
@@ -11,10 +11,11 @@ Run this project with
 
 ## TODOs
 - [x] Convert pixel data between boards
-- [ ] Click through Highlighters
+- [x] Click through Highlighters
 - [ ] Make PxWindow resizeable
 - [ ] Make WalkerController more sophisticated
 - [ ] Create a statistic window
+- [ ] Create a debug window
 - [x] Make Docker image
 
 [TODO list](https://gist.github.com/boesi/79fcb31c6e7efbc30f72d85a0fc97e98)
