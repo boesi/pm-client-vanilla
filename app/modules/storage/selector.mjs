@@ -2,6 +2,7 @@ import ProviderLocal from './provider-local.mjs';
 import ProviderFile from './provider-file.mjs';
 import ProviderOpfs from './provider-opfs.mjs';
 import ProviderIndexedDb from './provider-indexed-db.mjs';
+import ProviderRemote from './provider-remote.mjs';
 
 class Selector {
 	#wndSelect = document.createRange().createContextualFragment(`
@@ -17,6 +18,7 @@ class Selector {
 					<option value="session">SessionStorage</option>
 				</optgroup>
 				<optgroup label="Remote">
+					<option value="remote">Remote</option>
 				</optgroup>
 			</select>
 		</label>
@@ -53,6 +55,9 @@ class Selector {
 				break;
 			case 'opfs':
 				this.#provider = new ProviderOpfs();
+				break;
+			case 'remote':
+				this.#provider = new ProviderRemote();
 				break;
 			case 'dummy':
 			default:
