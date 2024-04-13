@@ -7,7 +7,7 @@ class ProviderRemote {
 	}
 
 	async save(data) {
-		const response = await window.fetch(this.#urlItem, {method: 'PUT', body: JSON.stringify(data)});
+		const response = await window.fetch(`${this.#urlItem}?name=${data.name}`, {method: 'PUT', body: JSON.stringify(data)});
 		console.log('===> storage.ProviderRemote.save', {response});
 	}
 
