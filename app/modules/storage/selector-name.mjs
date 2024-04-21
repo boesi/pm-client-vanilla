@@ -24,7 +24,7 @@ class StorageSelectorName {
 
 	set names(names) {
 		let options = [];
-		if (names) {
+		if (names && typeof names.sort === 'function') {
 			names.sort();
 			for (let name of names) {
 				let option = document.createElement("option");
