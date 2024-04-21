@@ -1,7 +1,7 @@
 class ProviderRemote {
 
-	#url = '/pm-server-node-http';
-	#urlItem = this.#url + '/item';
+	#url = '/pm-server-node-http/';
+	#urlItem = this.#url + 'item';
 
 	constructor() {
 	}
@@ -12,6 +12,9 @@ class ProviderRemote {
 	}
 
 	async getItems() {
+		const response = await window.fetch(`${this.#url}`, {method: 'GET'});
+		const json = await response.json();
+		return json.names;
 	}
 
 	async load(name) {
