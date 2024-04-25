@@ -18,6 +18,8 @@ class ProviderRemote {
 	}
 
 	async load(name) {
+		const response = await window.fetch(`${this.#urlItem}?name=${name}`, {method: 'GET'});
+		return await response.json();
 	}
 
 	async remove(name) {
