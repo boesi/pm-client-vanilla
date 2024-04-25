@@ -49,6 +49,9 @@ class StorageSettings {
 				// exist. So in theory we should alsways have a data object. But just
 				// in case we get null or undefined we check for it.
 				if (data != null) {
+					// Who should be responsible for error checking, if we get a malformed
+					// data object?
+					if (! Array.isArray(data.pixels)) throw new Error('Object data.pixels isn\'t an array');
 					this.#boardData.setPixelData(data.pixels);
 					this.#boardData.clearWalkerControllers();
 					const event = new CustomEvent('new-walkers', {detail: {walkers: data.walkers}});
