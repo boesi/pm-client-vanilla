@@ -19,6 +19,7 @@ class ProviderRemote {
 
 	async load(name) {
 		const response = await window.fetch(`${this.#urlItem}?name=${name}`, {method: 'GET'});
+		if (! response.ok) throw new Error(response.statusText);
 		return await response.json();
 	}
 
