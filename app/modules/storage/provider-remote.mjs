@@ -8,7 +8,8 @@ class ProviderRemote {
 
 	async save(data) {
 		const response = await window.fetch(`${this.#urlItem}?name=${data.name}`, {method: 'PUT', body: JSON.stringify(data)});
-		return response.status === 200;
+		if (! response.ok) throw new Error(response.statusText);
+		return response.ok;
 	}
 
 	async getItems() {
