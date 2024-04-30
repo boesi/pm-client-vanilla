@@ -80,6 +80,15 @@ class StorageSettings {
 		}
 	}
 
+	#getItems = async () => {
+		try {
+			this.#selectorName.names = await this.#selector.provider.getItems?.();
+		} catch(error) {
+			this.#message.setError('Failed to get list of items', {error});
+			console.error('===> storage/settings.getItems', {error});
+		}
+	}
+
 	#wndSetting = document.createRange().createContextualFragment(`
 		<div class="settings setting-storage">
 		</div>
@@ -100,7 +109,7 @@ class StorageSettings {
 		this.#wndSetting.append(this.#btnLoad.content);
 		this.#wndSetting.append(this.#btnRemove.content);
 		this.#wndSetting.append(this.#message.content);
-		this.#selector.onSelect = async provider => this.#selectorName.names = await provider?.getItems?.();
+		this.#selector.onSelect = this.#getItems;
 	}
 
 	get content() {
