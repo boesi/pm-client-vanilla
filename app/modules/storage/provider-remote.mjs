@@ -26,6 +26,9 @@ class ProviderRemote {
 	}
 
 	async remove(name) {
+		const response = await window.fetch(`${this.#urlItem}?name=${data.name}`, {method: 'DELETE'});
+		if (! response.ok) throw new Error(`${response.status}: ${response.statusText}`);
+		return response.ok;
 	}
 }
 
