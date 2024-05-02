@@ -22,6 +22,10 @@ class StorageSelectorName {
 		return this.#input.value;
 	}
 
+	set name(value) {
+		this.#input.value = value;
+	}
+
 	set names(names) {
 		let options = [];
 		if (names && typeof names.sort === 'function') {

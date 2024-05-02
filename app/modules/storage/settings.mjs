@@ -72,6 +72,7 @@ class StorageSettings {
 				await this.#selector.provider.remove(this.#selectorName.name);
 				this.#message.setInfo(`${this.#selectorName.name} removed`);
 				this.#selectorName.names = await this.#selector.provider.getItems?.();
+				this.#selectorName.name = '';
 			} catch(error) {
 				this.#message.setError(`Failed to remove ${this.#selectorName.name}`, {error});
 				this.#btnRemove.setError({autoclear: true});
