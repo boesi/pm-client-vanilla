@@ -39,7 +39,6 @@ class PxButton {
 	}
 
 	setError(options = {}) {
-		console.log('===> PxButton.setError', options);
 		this.#wndContent.classList.add('px-error');
 		if (options.autoclear) {
 			this.#autoclear();
