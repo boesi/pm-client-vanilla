@@ -8,26 +8,34 @@ class ProviderRemote {
 
 	async save(data) {
 		const response = await window.fetch(`${this.#urlItem}?name=${data.name}`, {method: 'PUT', body: JSON.stringify(data)});
-		if (! response.ok) throw new Error(`${response.status}: ${response.statusText}`);
+		if (! response.ok) {
+			throw new Error(`${response.status} ${response.statusText}: ${await response.text()}`);
+		}
 		return response.ok;
 	}
 
 	async getItems() {
 		const response = await window.fetch(`${this.#url}`, {method: 'GET'});
-		if (! response.ok) throw new Error(`${response.status}: ${response.statusText}`);
+		if (! response.ok) {
+			throw new Error(`${response.status} ${response.statusText}: ${await response.text()}`);
+		}
 		const json = await response.json();
 		return json.names;
 	}
 
 	async load(name) {
 		const response = await window.fetch(`${this.#urlItem}?name=${name}`, {method: 'GET'});
-		if (! response.ok) throw new Error(`${response.status}: ${response.statusText}`);
+		if (! response.ok) {
+			throw new Error(`${response.status} ${response.statusText}: ${await response.text()}`);
+		}
 		return await response.json();
 	}
 
 	async remove(name) {
 		const response = await window.fetch(`${this.#urlItem}?name=${name}`, {method: 'DELETE'});
-		if (! response.ok) throw new Error(`${response.status}: ${response.statusText}`);
+		if (! response.ok) {
+			throw new Error(`${response.status} ${response.statusText}: ${await response.text()}`);
+		}
 		return response.ok;
 	}
 }
